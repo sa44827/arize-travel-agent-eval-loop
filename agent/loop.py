@@ -1,12 +1,14 @@
 import json
 
 import anthropic
+from opentelemetry import trace
 
 from agent.config import MAX_TOKENS, MODEL
 from agent.prompt import SYSTEM_PROMPT
 from agent.tools import TOOLS, execute_tool
 
 client = anthropic.Anthropic()
+tracer = trace.get_tracer("travel-agent")
 
 
 def run_agent(messages: list) -> tuple[str, list]:
@@ -31,7 +33,12 @@ def run_agent(messages: list) -> tuple[str, list]:
         tool_results = []
         for block in response.content:
             if block.type == "tool_use":
-                result = execute_tool(block.name, block.input)
+                with tracer.start_as_current_span(
+                    block.name, openinference_span_kind="tool"
+                ) as span:
+                    span.set_input(block.input)
+                    result = execute_tool(block.name, block.input)
+                    span.set_output(result)
                 tool_results.append(
                     {
                         "type": "tool_result",

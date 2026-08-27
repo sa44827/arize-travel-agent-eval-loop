@@ -11,7 +11,6 @@ with open(DATA_DIR / "weather.json") as f:
 
 
 def search_flights(origin: str, destination: str, date: str) -> list:
-    cities = {origin.lower(), destination.lower()}
     return [
         {
             "airline": f["airline"],
@@ -21,7 +20,8 @@ def search_flights(origin: str, destination: str, date: str) -> list:
             "price_usd": f["price_usd"],
         }
         for f in FLIGHTS
-        if {f["origin"].lower(), f["destination"].lower()} == cities
+        if f["origin"].lower() == origin.lower()
+        and f["destination"].lower() == destination.lower()
     ]
 
 
