@@ -1,4 +1,5 @@
 import json
+from datetime import date as date_cls
 
 from agent.config import DATA_DIR
 
@@ -10,7 +11,22 @@ with open(DATA_DIR / "weather.json") as f:
     WEATHER = json.load(f)
 
 
+def _normalize_date(value: str, field: str) -> str:
+    """Return `value` as an ISO date string, or raise if it isn't one.
+
+    The fixtures store dates as ISO strings and compare them lexicographically,
+    which is only correct for well-formed YYYY-MM-DD input. Anything else is a
+    caller error and should surface as such rather than silently matching
+    nothing.
+    """
+    try:
+        return date_cls.fromisoformat(value.strip()).isoformat()
+    except (AttributeError, ValueError):
+        raise ValueError(f"{field} must be a YYYY-MM-DD date, got {value!r}") from None
+
+
 def search_flights(origin: str, destination: str, date: str) -> list:
+    travel_date = _normalize_date(date, "date")
     return [
         {
             "airline": f["airline"],
@@ -22,6 +38,7 @@ def search_flights(origin: str, destination: str, date: str) -> list:
         for f in FLIGHTS
         if f["origin"].lower() == origin.lower()
         and f["destination"].lower() == destination.lower()
+        and f["available_from"] <= travel_date <= f["available_to"]
     ]
 
 
@@ -50,14 +67,14 @@ def get_weather(city: str, date: str) -> dict:
         "city": city,
         "date": date,
         "condition": entry["conditions"][seed % len(entry["conditions"])],
-        "high_f": round(high * 5 / 9 + 32),
-        "low_f": round(low * 5 / 9 + 32),
+        "high_f": high,
+        "low_f": low,
     }
 
 
 def create_itinerary(destination: str, num_days: int, notes: str = "") -> dict:
     days = []
-    for day in range(1, int(num_days)):
+    for day in range(1, int(num_days) + 1):
         days.append(
             {
                 "day": day,
@@ -83,7 +100,7 @@ TOOLS = [
             "properties": {
                 "origin": {"type": "string", "description": "Departure city"},
                 "destination": {"type": "string", "description": "Arrival city"},
-                "date": {"type": "string", "description": "Travel date"},
+                "date": {"type": "string", "description": "Travel date (YYYY-MM-DD)"},
             },
             "required": ["origin", "destination", "date"],
         },
