@@ -12,8 +12,9 @@ package rather than editing the framework.
 from __future__ import annotations
 
 from collections import defaultdict
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field
-from typing import Any, Callable, Iterable, Literal
+from typing import Any, Literal
 
 Suite = Literal["regression", "capability"]
 Kind = Literal["code", "llm"]

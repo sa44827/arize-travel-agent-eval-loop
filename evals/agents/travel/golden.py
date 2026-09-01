@@ -19,9 +19,10 @@ from __future__ import annotations
 
 import json
 import random
+from collections.abc import Iterator
 from datetime import date
 from pathlib import Path
-from typing import Any, Iterator
+from typing import Any
 
 from evals.agents.travel import truth as T
 

@@ -8,13 +8,13 @@ the registry by name.
 from __future__ import annotations
 
 import json
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Callable
 
 from phoenix.client import Client
 from phoenix.client.experiments import run_experiment
 
-from evals.core.registry import REGISTRY, RegisteredEvaluator
+from evals.core.registry import REGISTRY, Kind, RegisteredEvaluator
 
 
 def load_golden(path: str | Path) -> list[dict]:
@@ -111,7 +111,7 @@ def evaluators_for(
     agent: str,
     *,
     mode: str | None = None,
-    kind: str | None = None,
+    kind: Kind | None = None,
     names: list[str] | None = None,
 ):
     regs: list[RegisteredEvaluator] = REGISTRY.for_agent(agent, mode=mode, kind=kind)
@@ -130,7 +130,7 @@ def run(
     dataset_name: str,
     agent_fn: Callable[[list], tuple[str, list]],
     experiment_name: str,
-    kind: str | None = "code",
+    kind: Kind | None = "code",
     names: list[str] | None = None,
     dry_run: int | bool = False,
     repetitions: int = 1,

@@ -1,14 +1,14 @@
-from dotenv import load_dotenv
-from backend.tracing import configure_tracing
+import logging
 import uuid
 
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 from pydantic import BaseModel
 
 from agent.loop import run_agent
+from backend.tracing import configure_tracing
 from common.logging import configure_logging
-import logging
 
 load_dotenv()
 configure_logging()

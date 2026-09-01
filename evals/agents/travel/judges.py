@@ -28,7 +28,8 @@ from __future__ import annotations
 
 import json
 import os
-from typing import Any, Mapping
+from collections.abc import Mapping
+from typing import Any
 
 from phoenix.evals import LLM, bind_evaluator, create_classifier
 from phoenix.evals.metrics import HallucinationEvaluator, ToolResponseHandlingEvaluator

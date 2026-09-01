@@ -18,8 +18,9 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import datetime, timedelta, timezone
-from typing import Any, Iterable
+from collections.abc import Iterable
+from datetime import UTC, datetime, timedelta
+from typing import Any
 
 import pandas as pd
 from phoenix.client import Client
@@ -102,7 +103,12 @@ def score(records: Iterable[dict], agent: str) -> pd.DataFrame:
                 result = reg.evaluator.evaluate(
                     {"input": rec["input"], "output": rec["output"]}
                 )[0]
-            except Exception as exc:  # one bad span must not stop the sweep
+            except Exception as exc:  # noqa: BLE001 — see below
+                # Deliberately broad: a judge can fail on a rate limit, a
+                # malformed span, or a model refusal, and one bad span must not
+                # abort a monitoring sweep over hundreds. The error is recorded
+                # as an annotation rather than dropped, so it stays visible —
+                # that is the difference between this and swallowing it.
                 rows.append({
                     "span_id": rec["span_id"], "annotation_name": reg.name,
                     "score": None, "label": "error",
@@ -151,7 +157,7 @@ def purge(
     import urllib.request
 
     base = os.getenv("PHOENIX_COLLECTOR_ENDPOINT", "http://localhost:6006").rstrip("/")
-    end = datetime.now(timezone.utc) + timedelta(minutes=1)
+    end = datetime.now(UTC) + timedelta(minutes=1)
     start = end - timedelta(minutes=since_minutes)
 
     deleted: dict[str, Any] = {}
@@ -186,7 +192,7 @@ def sweep(
 ) -> pd.DataFrame:
     """Sample recent spans, evaluate them, and annotate them in place."""
     client = client or Client()
-    start = datetime.now(timezone.utc) - timedelta(minutes=since_minutes)
+    start = datetime.now(UTC) - timedelta(minutes=since_minutes)
     spans = client.spans.get_spans_dataframe(
         project_identifier=project, start_time=start, limit=limit
     )

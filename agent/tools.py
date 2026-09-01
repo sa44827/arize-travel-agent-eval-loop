@@ -156,5 +156,7 @@ TOOL_FUNCTIONS = {
 def execute_tool(name: str, tool_input: dict):
     try:
         return TOOL_FUNCTIONS[name](**tool_input)
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
+        # The dispatcher's contract: any tool failure becomes a tool_result the
+        # model can read and recover from, rather than a 500 on the request.
         return {"error": str(e)}

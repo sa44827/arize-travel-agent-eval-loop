@@ -20,6 +20,7 @@ the results:
 from __future__ import annotations
 
 import argparse
+import math
 import os
 import sys
 from collections import defaultdict
@@ -159,7 +160,7 @@ def main() -> None:
     for ev in evaluators:
         b, nb = rate(before, ev)
         a, na = rate(after, ev)
-        if b != b:
+        if math.isnan(b):        # no applicable examples for this evaluator
             continue
         d = a - b
         arrow = " " if abs(d) < 0.05 else ("^" if d > 0 else "v")
@@ -179,7 +180,7 @@ def main() -> None:
             pred = lambda m, e=ev, c=cat: category(m.get("cell", "?"), e) == c
             b, nb = rate(before, ev, pred)
             a, na = rate(after, ev, pred)
-            if b != b or max(nb, na) == 0:
+            if math.isnan(b) or max(nb, na) == 0:
                 continue
             any_row = True
             print(f"      {ev:26} {b:6.1f}%  ->  {a:6.1f}%   ({a - b:+6.1f})   n={max(nb, na)}")

@@ -22,7 +22,6 @@ import os
 import random
 import sys
 from pathlib import Path
-from typing import Any
 
 HERE = Path(__file__).resolve().parents[3]
 OUT = HERE / "evals" / "data" / "judge_validation_v1.json"
@@ -130,11 +129,11 @@ def _absent_attribute(flights: list[dict], rng: random.Random) -> str:
     """
     f = flights[0]
     claim = rng.choice([
-        f"It's a direct flight of about 3 hours 15 minutes.",
-        f"This is a nonstop service operated by an Airbus A320.",
-        f"There are 12 seats left at this fare.",
+        "It's a direct flight of about 3 hours 15 minutes.",
+        "This is a nonstop service operated by an Airbus A320.",
+        "There are 12 seats left at this fare.",
         f"Checked baggage is included in the ${f['price_usd']} fare.",
-        f"It arrives at Terminal 4 and typically runs on time.",
+        "It arrives at Terminal 4 and typically runs on time.",
     ])
     return (f"{f['airline']} {f['flight_number']} departs {f['depart_time']} "
             f"for ${f['price_usd']}. {claim}")
@@ -143,8 +142,10 @@ def _absent_attribute(flights: list[dict], rng: random.Random) -> str:
 def _faithful_weather(w: dict, rng: random.Random) -> str:
     return rng.choice([
         f"{w['city']} on {w['date']}: {w['condition'].lower()}, high {w['high_f']}F, low {w['low_f']}F.",
-        f"Expect {w['condition'].lower()} in {w['city']}, topping out around {w['high_f']}F "
-        f"and dipping to {w['low_f']}F overnight.",
+        (
+            f"Expect {w['condition'].lower()} in {w['city']}, topping out around "
+            f"{w['high_f']}F and dipping to {w['low_f']}F overnight."
+        ),
     ])
 
 
@@ -353,7 +354,12 @@ def validate(judge_name: str) -> None:
     from dotenv import load_dotenv
     load_dotenv(HERE / ".env")          # the judge needs ANTHROPIC_API_KEY
     os.environ.setdefault("PHOENIX_COLLECTOR_ENDPOINT", "http://localhost:6006")
-    from sklearn.metrics import classification_report, confusion_matrix, cohen_kappa_score
+    from sklearn.metrics import (
+        classification_report,
+        cohen_kappa_score,
+        confusion_matrix,
+    )
+
     from evals.agents.travel import judges as J
 
     rows = json.loads(OUT.read_text())

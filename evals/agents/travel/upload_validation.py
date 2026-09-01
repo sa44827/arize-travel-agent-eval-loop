@@ -27,6 +27,7 @@ from __future__ import annotations
 import json
 import os
 import sys
+import urllib.error
 from collections import Counter
 from pathlib import Path
 
@@ -118,7 +119,10 @@ def main() -> None:
         try:
             attached = attach_exact_match(ds.id, judge)
             print(f"  evaluator attached: {attached}")
-        except Exception as exc:
+        except (RuntimeError, urllib.error.URLError) as exc:
+            # RuntimeError is a GraphQL-level rejection (e.g. already attached);
+            # URLError is Phoenix being unreachable. Anything else is a bug here
+            # and should surface rather than be printed and stepped over.
             print(f"  evaluator NOT attached: {str(exc)[:200]}")
         print()
 

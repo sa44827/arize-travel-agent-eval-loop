@@ -54,8 +54,8 @@ def main() -> None:
     print(f"agent under test: {agent_loop.__file__}")
     print(f"prompt version:   {PROMPT_VERSION}")
 
+    from evals.agents.travel import evaluators, judges, truth  # noqa: F401  (registers)
     from evals.core import runner
-    from evals.agents.travel import truth, evaluators, judges  # noqa: F401  (registers)
     print(f"reference fixtures: {truth.DATA_DIR}")
 
     exp = runner.run(

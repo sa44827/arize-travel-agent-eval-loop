@@ -1,9 +1,8 @@
-from openinference.instrumentation import TracerProvider
 import logging
-from opentelemetry.trace import Tracer
-from phoenix.otel import register
-from opentelemetry import trace
 import os
+
+from openinference.instrumentation import TracerProvider
+from phoenix.otel import register
 
 logger = logging.getLogger(__name__)
 
