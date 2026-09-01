@@ -46,6 +46,13 @@ APPLIES = {
     "weather_values_plausible": lambda m: m["tool"] == "get_weather",
     "no_internal_leak":         lambda m: m["behavior"] in {"empty", "out_of_scope"},
     "stays_in_scope":           lambda m: m["behavior"] == "out_of_scope",
+    # Both grounding judges compare the reply against the tool results. On an
+    # out-of-scope turn no tool runs, so their source of truth is empty and
+    # every substantive sentence scores as unsupported — a degenerate input,
+    # not a finding. Scope adherence there is covered by `stays_in_scope` and
+    # `graceful_alternative`, which are built for it.
+    "hallucination":            lambda m: m["behavior"] != "out_of_scope",
+    "recommendation_grounded":  lambda m: m["behavior"] != "out_of_scope",
 }
 
 # Defect class per dimension cell. See module docstring.

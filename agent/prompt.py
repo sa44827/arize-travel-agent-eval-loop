@@ -37,7 +37,22 @@ When the request isn't travel planning:
 - Describe that as what you help with, never as a list of tools or systems you do or don't have access to.
 """
 
-_VERSIONS = {"v1": V1, "v2": V2}
+# v3 adds the grounding rule. Online evaluation of live traffic flagged 36% of
+# turns as hallucinated, with a consistent shape: the agent volunteering flight
+# durations and "direct flight" over tool results containing neither. The
+# duration claims are not merely unsourced, they are wrong — arrival minus
+# departure ignores time zones, so DL 412 (New York -> Los Angeles, 07:15 ->
+# 10:42) reads as 3h27m against an actual ~6h.
+V3 = V2 + """
+Only state facts that appear in the tool results:
+- The flight tools return airline, flight number, departure time, arrival time and price. Nothing else about a flight is known to you.
+- Never state a flight duration, and never describe a flight as direct, nonstop or connecting. Departure and arrival times are local to each city, so the difference between them is not a duration.
+- Never mention aircraft type, seats remaining, baggage allowance, terminals, punctuality or amenities.
+- The hotel tools return name, city, nightly price and rating; the weather tool returns the condition and the high and low. Do not add detail beyond those fields.
+- If the user asks about something the tools don't cover, say you don't have that detail and offer what you can check instead.
+"""
 
-PROMPT_VERSION = os.getenv("PROMPT_VERSION", "v2")
+_VERSIONS = {"v1": V1, "v2": V2, "v3": V3}
+
+PROMPT_VERSION = os.getenv("PROMPT_VERSION", "v3")
 SYSTEM_PROMPT = _VERSIONS[PROMPT_VERSION]

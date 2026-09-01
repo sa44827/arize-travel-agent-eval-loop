@@ -31,6 +31,17 @@ class RegisteredEvaluator:
     evaluator: Any
     #: Which suite this belongs to. Regression targets ~100%, capability 50-80%.
     suite: Suite = "regression"
+    #: True when the evaluator needs no ground-truth label and can therefore run
+    #: against live production spans, not just a golden dataset. This is the
+    #: line between offline/CI evaluation and online monitoring.
+    online: bool = False
+    #: "maximize" (1.0 good) or "minimize" (1.0 bad, e.g. hallucination). Stored
+    #: because a monitor that averages scores without it reports backwards.
+    direction: Literal["maximize", "minimize"] = "maximize"
+    #: Optional predicate over a reconstructed record deciding whether this
+    #: evaluator means anything for that turn. Without it a judge scoped to
+    #: no-result turns gets run on successful ones and reports a false alarm.
+    applies: Any = None
     description: str = ""
     tags: tuple[str, ...] = field(default_factory=tuple)
 
@@ -47,6 +58,9 @@ class Registry:
         kind: Kind,
         mode: Literal["invariant", "signal"],
         suite: Suite = "regression",
+        online: bool = False,
+        direction: Literal["maximize", "minimize"] = "maximize",
+        applies: Any = None,
         description: str = "",
         tags: Iterable[str] = (),
     ) -> Callable[[Any], Any]:
@@ -62,6 +76,9 @@ class Registry:
                     mode=mode,
                     evaluator=evaluator,
                     suite=suite,
+                    online=online,
+                    direction=direction,
+                    applies=applies,
                     description=description,
                     tags=tuple(tags),
                 )
@@ -77,8 +94,11 @@ class Registry:
         kind: Kind | None = None,
         mode: str | None = None,
         suite: Suite | None = None,
+        online: bool | None = None,
     ) -> list[RegisteredEvaluator]:
         out = self._by_agent.get(agent, [])
+        if online is not None:
+            out = [e for e in out if e.online == online]
         if kind is not None:
             out = [e for e in out if e.kind == kind]
         if mode is not None:

@@ -27,6 +27,8 @@ def main() -> None:
     ap.add_argument("--dataset", default="travel-golden-v1")
     ap.add_argument("--dry-run", type=int, default=0)
     ap.add_argument("--prompt-version", default=None, help="v1 | v2")
+    ap.add_argument("--evaluators", default=None,
+                    help="comma-separated evaluator names; default is all code evaluators")
     ap.add_argument("--repetitions", type=int, default=1,
                     help="run each example N times; needed before trusting a "
                          "signal delta, since the task is non-deterministic")
@@ -53,7 +55,7 @@ def main() -> None:
     print(f"prompt version:   {PROMPT_VERSION}")
 
     from evals.core import runner
-    from evals.agents.travel import truth, evaluators  # noqa: F401  (registers)
+    from evals.agents.travel import truth, evaluators, judges  # noqa: F401  (registers)
     print(f"reference fixtures: {truth.DATA_DIR}")
 
     exp = runner.run(
@@ -61,6 +63,7 @@ def main() -> None:
         dataset_name=args.dataset,
         agent_fn=agent_loop.run_agent,
         experiment_name=args.name,
+        names=[n.strip() for n in args.evaluators.split(",")] if args.evaluators else None,
         dry_run=args.dry_run or False,
         repetitions=args.repetitions,
     )

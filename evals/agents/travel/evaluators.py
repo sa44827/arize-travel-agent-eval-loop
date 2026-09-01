@@ -93,11 +93,12 @@ def tool_result_exact(output: Any, expected: dict) -> bool:
 
 
 @REGISTRY.register(
-    agent=AGENT, name="flight_direction", kind="code", mode="invariant",
-    description="No returned flight travels the opposite way to the request.",
+    agent=AGENT, name="flight_direction", kind="code", mode="invariant", online=True,
+    description="No returned flight travels the opposite way to the request. "
+                "Needs no label — legality comes from the call's own arguments.",
 )
 @create_evaluator(name="flight_direction", kind="code")
-def flight_direction(output: Any, expected: dict) -> bool:
+def flight_direction(output: Any) -> bool:
     for c in _calls(output, "search_flights"):
         args, res = c.get("input") or {}, c.get("output")
         o, d = args.get("origin"), args.get("destination")
@@ -128,13 +129,14 @@ def itinerary_day_count(output: Any, expected: dict) -> bool:
 
 @REGISTRY.register(
     agent=AGENT, name="weather_values_plausible", kind="code", mode="invariant",
+    online=True,
     description="Reported temperatures track the fixtures within the intended "
                 "jitter — catches the bogus C-to-F conversion applied to values "
-                "that were already Fahrenheit.",
+                "that were already Fahrenheit. Needs no label.",
 )
 @create_evaluator(name="weather_values_plausible", kind="code")
-def weather_values_plausible(output: Any, expected: dict) -> bool:
-    if expected.get("expected_tool") != "get_weather":
+def weather_values_plausible(output: Any) -> bool:
+    if not _calls(output, "get_weather"):
         return True
     for c in _calls(output, "get_weather"):
         res, args = c.get("output"), (c.get("input") or {})
@@ -155,7 +157,7 @@ def weather_values_plausible(output: Any, expected: dict) -> bool:
 
 
 @REGISTRY.register(
-    agent=AGENT, name="no_fabricated_flights", kind="code", mode="invariant",
+    agent=AGENT, name="no_fabricated_flights", kind="code", mode="invariant", online=True,
     description="Every flight number in the reply appeared in a tool result. "
                 "Deterministic hallucination detection — no judge needed.",
 )
@@ -202,13 +204,18 @@ LEAK_PHRASES = (
 
 @REGISTRY.register(
     agent=AGENT, name="no_internal_leak", kind="code", mode="signal",
-    suite="capability",
+    suite="capability", online=True,
     description="Replies on the no-results and out-of-scope paths must not "
                 "reveal tools, systems, or data sources to the user.",
 )
 @create_evaluator(name="no_internal_leak", kind="code")
-def no_internal_leak(output: Any, expected: dict) -> bool:
-    if expected.get("expected_behavior") not in {"empty", "out_of_scope"}:
+def no_internal_leak(output: Any) -> bool:
+    # Applicability is inferable from the turn itself, with no golden label:
+    # no tool ran at all (out of scope), or every tool came back empty. That is
+    # what lets this run against live traffic, where labels do not exist.
+    calls = _calls(output)
+    empty = bool(calls) and all(not c.get("output") for c in calls)
+    if calls and not empty:
         return True
     reply = ((output or {}).get("reply") or "").lower()
     return not any(leak in reply for leak in LEAK_PHRASES)

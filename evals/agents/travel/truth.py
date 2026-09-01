@@ -26,6 +26,28 @@ WEATHER = json.loads((DATA_DIR / "weather.json").read_text())
 
 
 # --------------------------------------------------------------------------
+# Projections — the exact field set each tool hands back
+#
+# The fixtures carry more than the tools expose: a flight row has `origin`,
+# `destination` and its availability window, but `search_flights` returns only
+# five fields. Anything built for a judge must use these projections, or the
+# judge is validated against context it will never have in production — which
+# makes its measured accuracy meaningless for live traffic.
+# --------------------------------------------------------------------------
+
+FLIGHT_FIELDS = ("airline", "flight_number", "depart_time", "arrive_time", "price_usd")
+HOTEL_FIELDS = ("name", "city", "price_per_night_usd", "rating")
+
+
+def project_flight(f: dict) -> dict:
+    return {k: f[k] for k in FLIGHT_FIELDS}
+
+
+def project_hotel(h: dict) -> dict:
+    return {k: h[k] for k in HOTEL_FIELDS}
+
+
+# --------------------------------------------------------------------------
 # Independent reimplementations of what each tool should return
 # --------------------------------------------------------------------------
 

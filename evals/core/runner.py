@@ -107,8 +107,20 @@ def make_task(agent_fn: Callable[[list], tuple[str, list]]) -> Callable[[dict], 
 # Running
 # --------------------------------------------------------------------------
 
-def evaluators_for(agent: str, *, mode: str | None = None, kind: str | None = None):
+def evaluators_for(
+    agent: str,
+    *,
+    mode: str | None = None,
+    kind: str | None = None,
+    names: list[str] | None = None,
+):
     regs: list[RegisteredEvaluator] = REGISTRY.for_agent(agent, mode=mode, kind=kind)
+    if names:
+        # Selecting judges by name keeps an experiment's cost proportional to the
+        # question being asked — running all four on every example doubles the
+        # bill to corroborate a result two of them already settle.
+        wanted = set(names)
+        regs = [r for r in REGISTRY.for_agent(agent) if r.name in wanted]
     return [r.evaluator for r in regs]
 
 
@@ -119,6 +131,7 @@ def run(
     agent_fn: Callable[[list], tuple[str, list]],
     experiment_name: str,
     kind: str | None = "code",
+    names: list[str] | None = None,
     dry_run: int | bool = False,
     repetitions: int = 1,
     client: Client | None = None,
@@ -128,7 +141,7 @@ def run(
     return run_experiment(
         dataset=dataset,
         task=make_task(agent_fn),
-        evaluators=evaluators_for(agent, kind=kind),
+        evaluators=evaluators_for(agent, kind=kind, names=names),
         experiment_name=experiment_name,
         dry_run=dry_run,
         repetitions=repetitions,
