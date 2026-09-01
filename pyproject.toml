@@ -6,13 +6,17 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "anthropic>=1.2.0",
-    "arize-phoenix-client>=3.3.0",
+    "arize-phoenix-client[evals,pytest]>=3.3.0",
+    "arize-phoenix-evals>=3.5.1",
     "arize-phoenix-otel>=0.17.1",
     "fastapi[standard]==0.139.0",
     "httpx==0.28.1",
     "openinference-instrumentation-anthropic>=2.1.1",
     "opentelemetry-instrumentation-fastapi>=0.65b0",
+    "pandas>=3.0.5",
+    "pytest>=9.1.1",
     "python-dotenv==1.2.2",
+    "scikit-learn>=1.9.0",
     "uvicorn[standard]==0.51.0",
 ]
 

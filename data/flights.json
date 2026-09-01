@@ -8,7 +8,7 @@
     "arrive_time": "10:42",
     "price_usd": 342,
     "available_from": "2025-01-01",
-    "available_to": "2026-12-31"
+    "available_to": "2027-12-31"
   },
   {
     "airline": "JetBlue",
@@ -19,7 +19,7 @@
     "arrive_time": "16:55",
     "price_usd": 289,
     "available_from": "2025-01-01",
-    "available_to": "2026-12-31"
+    "available_to": "2027-12-31"
   },
   {
     "airline": "American",
@@ -30,7 +30,7 @@
     "arrive_time": "16:21",
     "price_usd": 356,
     "available_from": "2025-01-01",
-    "available_to": "2026-12-31"
+    "available_to": "2027-12-31"
   },
   {
     "airline": "Delta",
@@ -40,8 +40,8 @@
     "depart_time": "22:45",
     "arrive_time": "07:02",
     "price_usd": 301,
-    "available_from": "2025-01-01",
-    "available_to": "2026-09-30"
+    "available_from": "2026-11-01",
+    "available_to": "2027-12-31"
   },
   {
     "airline": "United",
@@ -52,7 +52,7 @@
     "arrive_time": "08:25",
     "price_usd": 178,
     "available_from": "2025-01-01",
-    "available_to": "2026-12-31"
+    "available_to": "2027-12-31"
   },
   {
     "airline": "American",
@@ -63,7 +63,7 @@
     "arrive_time": "18:48",
     "price_usd": 195,
     "available_from": "2025-01-01",
-    "available_to": "2026-12-31"
+    "available_to": "2027-12-31"
   },
   {
     "airline": "United",
@@ -74,7 +74,7 @@
     "arrive_time": "12:33",
     "price_usd": 182,
     "available_from": "2025-01-01",
-    "available_to": "2026-12-31"
+    "available_to": "2027-12-31"
   },
   {
     "airline": "Delta",
@@ -85,7 +85,7 @@
     "arrive_time": "12:55",
     "price_usd": 214,
     "available_from": "2025-01-01",
-    "available_to": "2026-12-31"
+    "available_to": "2027-12-31"
   },
   {
     "airline": "JetBlue",
@@ -96,7 +96,7 @@
     "arrive_time": "18:39",
     "price_usd": 189,
     "available_from": "2025-01-01",
-    "available_to": "2026-06-30"
+    "available_to": "2026-10-31"
   },
   {
     "airline": "American",
@@ -107,7 +107,7 @@
     "arrive_time": "14:12",
     "price_usd": 226,
     "available_from": "2025-01-01",
-    "available_to": "2026-12-31"
+    "available_to": "2027-12-31"
   },
   {
     "airline": "United",
@@ -118,7 +118,7 @@
     "arrive_time": "15:10",
     "price_usd": 987,
     "available_from": "2025-01-01",
-    "available_to": "2026-12-31"
+    "available_to": "2027-12-31"
   },
   {
     "airline": "ANA",
@@ -128,8 +128,8 @@
     "depart_time": "13:45",
     "arrive_time": "17:25",
     "price_usd": 1104,
-    "available_from": "2026-03-01",
-    "available_to": "2026-12-31"
+    "available_from": "2026-10-15",
+    "available_to": "2027-12-31"
   },
   {
     "airline": "ANA",
@@ -139,8 +139,8 @@
     "depart_time": "10:50",
     "arrive_time": "14:55",
     "price_usd": 1042,
-    "available_from": "2026-02-01",
-    "available_to": "2026-12-31"
+    "available_from": "2025-01-01",
+    "available_to": "2026-11-30"
   },
   {
     "airline": "United",
@@ -151,7 +151,7 @@
     "arrive_time": "10:25",
     "price_usd": 1015,
     "available_from": "2025-01-01",
-    "available_to": "2026-12-31"
+    "available_to": "2027-12-31"
   },
   {
     "airline": "Delta",
@@ -162,7 +162,7 @@
     "arrive_time": "07:20",
     "price_usd": 645,
     "available_from": "2025-01-01",
-    "available_to": "2026-12-31"
+    "available_to": "2027-12-31"
   },
   {
     "airline": "British Airways",
@@ -173,7 +173,7 @@
     "arrive_time": "14:10",
     "price_usd": 689,
     "available_from": "2025-01-01",
-    "available_to": "2026-12-31"
+    "available_to": "2027-12-31"
   },
   {
     "airline": "Air France",
@@ -184,7 +184,7 @@
     "arrive_time": "08:05",
     "price_usd": 702,
     "available_from": "2025-01-01",
-    "available_to": "2026-12-31"
+    "available_to": "2027-12-31"
   },
   {
     "airline": "Delta",
@@ -195,7 +195,7 @@
     "arrive_time": "11:15",
     "price_usd": 668,
     "available_from": "2025-01-01",
-    "available_to": "2026-05-20"
+    "available_to": "2026-09-30"
   },
   {
     "airline": "Air France",
@@ -206,7 +206,7 @@
     "arrive_time": "12:55",
     "price_usd": 715,
     "available_from": "2025-01-01",
-    "available_to": "2026-12-31"
+    "available_to": "2027-12-31"
   },
   {
     "airline": "British Airways",
@@ -217,7 +217,7 @@
     "arrive_time": "10:40",
     "price_usd": 142,
     "available_from": "2025-01-01",
-    "available_to": "2026-12-31"
+    "available_to": "2027-12-31"
   },
   {
     "airline": "Air France",
@@ -227,8 +227,8 @@
     "depart_time": "14:15",
     "arrive_time": "14:35",
     "price_usd": 156,
-    "available_from": "2025-06-01",
-    "available_to": "2026-10-31"
+    "available_from": "2026-10-01",
+    "available_to": "2027-12-31"
   },
   {
     "airline": "United",
@@ -239,7 +239,7 @@
     "arrive_time": "11:45",
     "price_usd": 148,
     "available_from": "2025-01-01",
-    "available_to": "2026-12-31"
+    "available_to": "2027-12-31"
   },
   {
     "airline": "United",
@@ -250,7 +250,7 @@
     "arrive_time": "16:40",
     "price_usd": 152,
     "available_from": "2025-01-01",
-    "available_to": "2026-12-31"
+    "available_to": "2027-12-31"
   },
   {
     "airline": "Southwest",
@@ -260,8 +260,8 @@
     "depart_time": "07:35",
     "arrive_time": "11:50",
     "price_usd": 167,
-    "available_from": "2025-11-01",
-    "available_to": "2026-04-15"
+    "available_from": "2026-11-01",
+    "available_to": "2027-03-31"
   },
   {
     "airline": "United",
@@ -272,7 +272,7 @@
     "arrive_time": "10:25",
     "price_usd": 98,
     "available_from": "2025-01-01",
-    "available_to": "2026-12-31"
+    "available_to": "2027-12-31"
   },
   {
     "airline": "Delta",
@@ -283,7 +283,7 @@
     "arrive_time": "14:00",
     "price_usd": 104,
     "available_from": "2025-01-01",
-    "available_to": "2026-12-31"
+    "available_to": "2027-12-31"
   },
   {
     "airline": "United",
@@ -294,7 +294,7 @@
     "arrive_time": "12:05",
     "price_usd": 378,
     "available_from": "2025-01-01",
-    "available_to": "2026-12-31"
+    "available_to": "2027-12-31"
   },
   {
     "airline": "Delta",
@@ -305,6 +305,6 @@
     "arrive_time": "16:10",
     "price_usd": 392,
     "available_from": "2025-01-01",
-    "available_to": "2026-12-31"
+    "available_to": "2027-12-31"
   }
 ]
