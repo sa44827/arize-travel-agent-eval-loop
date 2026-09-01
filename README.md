@@ -16,9 +16,13 @@ agent/
 ├── config.py   # env vars (model, data dir)
 ├── prompt.py   # system prompt
 ├── tools.py    # tool schemas + implementations backed by data/*.json
-├── loop.py     # the tool-calling loop
-├── chat.py     # CLI entrypoint
-└── api.py      # FastAPI app
+├── loop.py     # the tool-calling loop (emits a span per tool call)
+└── chat.py     # CLI entrypoint
+backend/
+├── main.py     # FastAPI app
+└── tracing.py  # Phoenix / OpenTelemetry setup
+common/
+└── logging.py  # JSON-lines logging
 data/
 ├── flights.json
 ├── hotels.json
@@ -66,6 +70,7 @@ Environment variables:
 |---|---|---|---|
 | `ANTHROPIC_API_KEY` | yes | — | Anthropic API key |
 | `ANTHROPIC_MODEL` | no | `claude-haiku-4-5` | Model used by the agent |
+| `PHOENIX_COLLECTOR_ENDPOINT` | yes (API) | — | Phoenix collector, e.g. `http://localhost:6006`. The API refuses to start without it; the CLI doesn't need it. |
 
 ## Usage
 
@@ -87,7 +92,7 @@ Type `quit` (or Ctrl-D) to exit. Conversation history is kept for the session.
 Start the server:
 
 ```bash
-uv run uvicorn agent.api:app
+uv run fastapi dev backend/main.py
 ```
 
 Send a message:

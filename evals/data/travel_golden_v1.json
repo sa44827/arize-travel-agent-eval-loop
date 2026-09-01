@@ -1,0 +1,4316 @@
+[
+  {
+    "id": "flight-discriminating-001",
+    "input": {
+      "message": "What flights are there from Los Angeles to New York on June 1, 2027?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Los Angeles",
+        "destination": "New York",
+        "date": "2027-06-01"
+      },
+      "expected_result_ids": [
+        "AA 118",
+        "DL 2119"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "date_window:full",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-discriminating-002",
+    "input": {
+      "message": "What flights are there from Los Angeles to New York on October 31, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Los Angeles",
+        "destination": "New York",
+        "date": "2026-10-31"
+      },
+      "expected_result_ids": [
+        "AA 118"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "date_window:partial",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-discriminating-003",
+    "input": {
+      "message": "Are there any flights from New York to Miami on October 1, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "New York",
+        "destination": "Miami",
+        "date": "2026-10-01"
+      },
+      "expected_result_ids": [
+        "B6 1029",
+        "DL 883"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "date_window:full",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-discriminating-004",
+    "input": {
+      "message": "I need to get from New York to Miami on November 1, 2026 \u2014 what are my options?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "New York",
+        "destination": "Miami",
+        "date": "2026-11-01"
+      },
+      "expected_result_ids": [
+        "DL 883"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "date_window:partial",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-discriminating-005",
+    "input": {
+      "message": "Show me flights from New York to Paris on September 15, 2026."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "New York",
+        "destination": "Paris",
+        "date": "2026-09-15"
+      },
+      "expected_result_ids": [
+        "AF 23",
+        "DL 263"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "date_window:full",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-discriminating-006",
+    "input": {
+      "message": "I want to fly New York to Paris on October 1, 2026. What's available?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "New York",
+        "destination": "Paris",
+        "date": "2026-10-01"
+      },
+      "expected_result_ids": [
+        "AF 23"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "date_window:partial",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-discriminating-007",
+    "input": {
+      "message": "Find me a flight from San Francisco to Tokyo on May 24, 2027."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "San Francisco",
+        "destination": "Tokyo",
+        "date": "2027-05-24"
+      },
+      "expected_result_ids": [
+        "NH 7",
+        "UA 837"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "date_window:full",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-discriminating-008",
+    "input": {
+      "message": "Show me flights from San Francisco to Tokyo on October 14, 2026."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "San Francisco",
+        "destination": "Tokyo",
+        "date": "2026-10-14"
+      },
+      "expected_result_ids": [
+        "UA 837"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "date_window:partial",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-forward-000",
+    "input": {
+      "message": "What flights are there from Paris to New York on May 2, 2027?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Paris",
+        "destination": "New York",
+        "date": "2027-05-02"
+      },
+      "expected_result_ids": [
+        "AF 22"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:forward",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-forward-001",
+    "input": {
+      "message": "Are there any flights from San Francisco to Los Angeles on May 2, 2027?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "San Francisco",
+        "destination": "Los Angeles",
+        "date": "2027-05-02"
+      },
+      "expected_result_ids": [
+        "UA 690"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:forward",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-forward-002",
+    "input": {
+      "message": "I want to fly New York to Miami on October 1, 2026. What's available?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "New York",
+        "destination": "Miami",
+        "date": "2026-10-01"
+      },
+      "expected_result_ids": [
+        "B6 1029",
+        "DL 883"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:forward",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-forward-003",
+    "input": {
+      "message": "I want to fly Chicago to New York on May 2, 2027. What's available?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Chicago",
+        "destination": "New York",
+        "date": "2027-05-02"
+      },
+      "expected_result_ids": [
+        "UA 513"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:forward",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-forward-004",
+    "input": {
+      "message": "I want to fly New York to London on May 2, 2027. What's available?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "New York",
+        "destination": "London",
+        "date": "2027-05-02"
+      },
+      "expected_result_ids": [
+        "DL 24"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:forward",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-forward-005",
+    "input": {
+      "message": "I need to get from New York to Chicago on May 2, 2027 \u2014 what are my options?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "New York",
+        "destination": "Chicago",
+        "date": "2027-05-02"
+      },
+      "expected_result_ids": [
+        "AA 340",
+        "UA 512"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:forward",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-forward-006",
+    "input": {
+      "message": "Find me a flight from Los Angeles to San Francisco on May 2, 2027."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Los Angeles",
+        "destination": "San Francisco",
+        "date": "2027-05-02"
+      },
+      "expected_result_ids": [
+        "DL 1580"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:forward",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-forward-007",
+    "input": {
+      "message": "Show me flights from New York to Los Angeles on May 2, 2027."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "New York",
+        "destination": "Los Angeles",
+        "date": "2027-05-02"
+      },
+      "expected_result_ids": [
+        "B6 623",
+        "DL 412"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:forward",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-forward-008",
+    "input": {
+      "message": "Show me flights from Los Angeles to New York on June 1, 2027."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Los Angeles",
+        "destination": "New York",
+        "date": "2027-06-01"
+      },
+      "expected_result_ids": [
+        "AA 118",
+        "DL 2119"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:forward",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-forward-009",
+    "input": {
+      "message": "I want to fly London to New York on May 2, 2027. What's available?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "London",
+        "destination": "New York",
+        "date": "2027-05-02"
+      },
+      "expected_result_ids": [
+        "BA 178"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:forward",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-forward-010",
+    "input": {
+      "message": "Find me a flight from Paris to London on May 17, 2027."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Paris",
+        "destination": "London",
+        "date": "2027-05-17"
+      },
+      "expected_result_ids": [
+        "AF 1681"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:forward",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-forward-011",
+    "input": {
+      "message": "I need to get from Los Angeles to Tokyo on October 16, 2026 \u2014 what are my options?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Los Angeles",
+        "destination": "Tokyo",
+        "date": "2026-10-16"
+      },
+      "expected_result_ids": [
+        "NH 105"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:forward",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-forward-012",
+    "input": {
+      "message": "Show me flights from San Francisco to Tokyo on May 24, 2027."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "San Francisco",
+        "destination": "Tokyo",
+        "date": "2027-05-24"
+      },
+      "expected_result_ids": [
+        "NH 7",
+        "UA 837"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:forward",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-forward-013",
+    "input": {
+      "message": "Are there any flights from New York to Paris on September 15, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "New York",
+        "destination": "Paris",
+        "date": "2026-09-15"
+      },
+      "expected_result_ids": [
+        "AF 23",
+        "DL 263"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:forward",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-forward-014",
+    "input": {
+      "message": "I need to get from San Francisco to New York on May 2, 2027 \u2014 what are my options?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "San Francisco",
+        "destination": "New York",
+        "date": "2027-05-02"
+      },
+      "expected_result_ids": [
+        "DL 310"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:forward",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-forward-015",
+    "input": {
+      "message": "Show me flights from Chicago to Denver on May 2, 2027."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Chicago",
+        "destination": "Denver",
+        "date": "2027-05-02"
+      },
+      "expected_result_ids": [
+        "UA 2044"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:forward",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-forward-016",
+    "input": {
+      "message": "Are there any flights from Chicago to Miami on January 15, 2027?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Chicago",
+        "destination": "Miami",
+        "date": "2027-01-15"
+      },
+      "expected_result_ids": [
+        "WN 1512"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:forward",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-forward-017",
+    "input": {
+      "message": "What flights are there from New York to San Francisco on May 2, 2027?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "New York",
+        "destination": "San Francisco",
+        "date": "2027-05-02"
+      },
+      "expected_result_ids": [
+        "UA 421"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:forward",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-forward-018",
+    "input": {
+      "message": "Show me flights from London to Paris on May 2, 2027."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "London",
+        "destination": "Paris",
+        "date": "2027-05-02"
+      },
+      "expected_result_ids": [
+        "BA 306"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:forward",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-forward-019",
+    "input": {
+      "message": "Show me flights from Tokyo to San Francisco on May 2, 2027."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Tokyo",
+        "destination": "San Francisco",
+        "date": "2027-05-02"
+      },
+      "expected_result_ids": [
+        "UA 838"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:forward",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-reverse-000",
+    "input": {
+      "message": "I want to fly Miami to Chicago on January 15, 2027. What's available?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Miami",
+        "destination": "Chicago",
+        "date": "2027-01-15"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:reverse_only",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-reverse-001",
+    "input": {
+      "message": "I need to get from Tokyo to Los Angeles on October 16, 2026 \u2014 what are my options?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Tokyo",
+        "destination": "Los Angeles",
+        "date": "2026-10-16"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:reverse_only",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-direction-001",
+    "input": {
+      "message": "I want to fly Chicago to Denver on September 20, 2026. What's available?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Chicago",
+        "destination": "Denver",
+        "date": "2026-09-20"
+      },
+      "expected_result_ids": [
+        "UA 2044"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:direction_pair",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-direction-002",
+    "input": {
+      "message": "I need to get from Denver to Chicago on September 20, 2026 \u2014 what are my options?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Denver",
+        "destination": "Chicago",
+        "date": "2026-09-20"
+      },
+      "expected_result_ids": [
+        "UA 2045"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:direction_pair",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-direction-003",
+    "input": {
+      "message": "What flights are there from Chicago to New York on September 20, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Chicago",
+        "destination": "New York",
+        "date": "2026-09-20"
+      },
+      "expected_result_ids": [
+        "UA 513"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:direction_pair",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-direction-004",
+    "input": {
+      "message": "I want to fly New York to Chicago on September 20, 2026. What's available?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "New York",
+        "destination": "Chicago",
+        "date": "2026-09-20"
+      },
+      "expected_result_ids": [
+        "AA 340",
+        "UA 512"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:direction_pair",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-direction-005",
+    "input": {
+      "message": "Are there any flights from London to New York on September 20, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "London",
+        "destination": "New York",
+        "date": "2026-09-20"
+      },
+      "expected_result_ids": [
+        "BA 178"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:direction_pair",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-direction-006",
+    "input": {
+      "message": "Are there any flights from New York to London on September 20, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "New York",
+        "destination": "London",
+        "date": "2026-09-20"
+      },
+      "expected_result_ids": [
+        "DL 24"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:direction_pair",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-direction-007",
+    "input": {
+      "message": "Show me flights from Los Angeles to New York on September 20, 2026."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Los Angeles",
+        "destination": "New York",
+        "date": "2026-09-20"
+      },
+      "expected_result_ids": [
+        "AA 118"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:direction_pair",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-direction-008",
+    "input": {
+      "message": "I need to get from New York to Los Angeles on September 20, 2026 \u2014 what are my options?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "New York",
+        "destination": "Los Angeles",
+        "date": "2026-09-20"
+      },
+      "expected_result_ids": [
+        "B6 623",
+        "DL 412"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:direction_pair",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-direction-009",
+    "input": {
+      "message": "Find me a flight from Los Angeles to San Francisco on September 20, 2026."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Los Angeles",
+        "destination": "San Francisco",
+        "date": "2026-09-20"
+      },
+      "expected_result_ids": [
+        "DL 1580"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:direction_pair",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-direction-010",
+    "input": {
+      "message": "I want to fly San Francisco to Los Angeles on September 20, 2026. What's available?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "San Francisco",
+        "destination": "Los Angeles",
+        "date": "2026-09-20"
+      },
+      "expected_result_ids": [
+        "UA 690"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:direction_pair",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-direction-011",
+    "input": {
+      "message": "What flights are there from Miami to New York on September 20, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Miami",
+        "destination": "New York",
+        "date": "2026-09-20"
+      },
+      "expected_result_ids": [
+        "AA 2210"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:direction_pair",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-direction-012",
+    "input": {
+      "message": "I need to get from New York to Miami on September 20, 2026 \u2014 what are my options?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "New York",
+        "destination": "Miami",
+        "date": "2026-09-20"
+      },
+      "expected_result_ids": [
+        "B6 1029",
+        "DL 883"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:direction_pair",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-direction-013",
+    "input": {
+      "message": "I need to get from New York to Paris on September 20, 2026 \u2014 what are my options?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "New York",
+        "destination": "Paris",
+        "date": "2026-09-20"
+      },
+      "expected_result_ids": [
+        "AF 23",
+        "DL 263"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:direction_pair",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-direction-014",
+    "input": {
+      "message": "I need to get from Paris to New York on September 20, 2026 \u2014 what are my options?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Paris",
+        "destination": "New York",
+        "date": "2026-09-20"
+      },
+      "expected_result_ids": [
+        "AF 22"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:direction_pair",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-direction-015",
+    "input": {
+      "message": "Find me a flight from New York to San Francisco on September 20, 2026."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "New York",
+        "destination": "San Francisco",
+        "date": "2026-09-20"
+      },
+      "expected_result_ids": [
+        "UA 421"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:direction_pair",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-direction-016",
+    "input": {
+      "message": "Find me a flight from San Francisco to New York on September 20, 2026."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "San Francisco",
+        "destination": "New York",
+        "date": "2026-09-20"
+      },
+      "expected_result_ids": [
+        "DL 310"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:direction_pair",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-direction-017",
+    "input": {
+      "message": "I need to get from San Francisco to Tokyo on September 20, 2026 \u2014 what are my options?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "San Francisco",
+        "destination": "Tokyo",
+        "date": "2026-09-20"
+      },
+      "expected_result_ids": [
+        "UA 837"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:direction_pair",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-direction-018",
+    "input": {
+      "message": "Show me flights from Tokyo to San Francisco on September 20, 2026."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Tokyo",
+        "destination": "San Francisco",
+        "date": "2026-09-20"
+      },
+      "expected_result_ids": [
+        "UA 838"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:direction_pair",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "flight-noroute-000",
+    "input": {
+      "message": "Are there any flights from Miami to Tokyo on November 12, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Miami",
+        "destination": "Tokyo",
+        "date": "2026-11-12"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:absent",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "flight-noroute-001",
+    "input": {
+      "message": "What flights are there from Denver to Miami on November 12, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Denver",
+        "destination": "Miami",
+        "date": "2026-11-12"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:absent",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "flight-noroute-002",
+    "input": {
+      "message": "Are there any flights from Austin to Chicago on November 12, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Austin",
+        "destination": "Chicago",
+        "date": "2026-11-12"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:absent",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "flight-noroute-003",
+    "input": {
+      "message": "Are there any flights from Seattle to Paris on November 12, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Seattle",
+        "destination": "Paris",
+        "date": "2026-11-12"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:absent",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "flight-noroute-004",
+    "input": {
+      "message": "Find me a flight from Boston to London on November 12, 2026."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Boston",
+        "destination": "London",
+        "date": "2026-11-12"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:absent",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "flight-noroute-005",
+    "input": {
+      "message": "I want to fly Denver to Tokyo on November 12, 2026. What's available?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Denver",
+        "destination": "Tokyo",
+        "date": "2026-11-12"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:absent",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "flight-noroute-006",
+    "input": {
+      "message": "What flights are there from Chicago to London on November 12, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Chicago",
+        "destination": "London",
+        "date": "2026-11-12"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:absent",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "flight-noroute-007",
+    "input": {
+      "message": "What flights are there from Miami to Paris on November 12, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Miami",
+        "destination": "Paris",
+        "date": "2026-11-12"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:absent",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "flight-noroute-008",
+    "input": {
+      "message": "Show me flights from Tokyo to Chicago on November 12, 2026."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Tokyo",
+        "destination": "Chicago",
+        "date": "2026-11-12"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:absent",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "flight-noroute-009",
+    "input": {
+      "message": "Are there any flights from Los Angeles to Miami on November 12, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Los Angeles",
+        "destination": "Miami",
+        "date": "2026-11-12"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:absent",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "flight-noroute-010",
+    "input": {
+      "message": "I want to fly Boston to Denver on November 12, 2026. What's available?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Boston",
+        "destination": "Denver",
+        "date": "2026-11-12"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:absent",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "flight-noroute-011",
+    "input": {
+      "message": "Find me a flight from Austin to Tokyo on November 12, 2026."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Austin",
+        "destination": "Tokyo",
+        "date": "2026-11-12"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:absent",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "flight-noroute-012",
+    "input": {
+      "message": "Are there any flights from Seattle to Miami on November 12, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Seattle",
+        "destination": "Miami",
+        "date": "2026-11-12"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:absent",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "flight-noroute-013",
+    "input": {
+      "message": "I need to get from Denver to London on November 12, 2026 \u2014 what are my options?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Denver",
+        "destination": "London",
+        "date": "2026-11-12"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:absent",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "flight-noroute-014",
+    "input": {
+      "message": "Are there any flights from Chicago to Tokyo on November 12, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Chicago",
+        "destination": "Tokyo",
+        "date": "2026-11-12"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:absent",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "flight-noroute-015",
+    "input": {
+      "message": "Show me flights from Miami to London on November 12, 2026."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Miami",
+        "destination": "London",
+        "date": "2026-11-12"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "route:absent",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "flight-reldate-000",
+    "input": {
+      "message": "I need a flight from New York to Miami next Friday."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "New York",
+        "destination": "Miami"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "date:relative",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "flight-reldate-001",
+    "input": {
+      "message": "I need a flight from New York to Miami this coming weekend."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "New York",
+        "destination": "Miami"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "date:relative",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "flight-reldate-002",
+    "input": {
+      "message": "I need a flight from New York to Miami the first Monday of November."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "New York",
+        "destination": "Miami"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "flight",
+      "cell": "date:relative",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-have-000",
+    "input": {
+      "message": "Can you find hotels in Chicago for October 5, 2026 to October 9, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Chicago",
+        "check_in": "2026-10-05",
+        "check_out": "2026-10-09"
+      },
+      "expected_result_ids": [
+        "Lakefront Tower",
+        "The Loop Central",
+        "The Wrigleyville Hotel"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "hotel-have-001",
+    "input": {
+      "message": "What hotels are available in London from October 5, 2026 to October 9, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "London",
+        "check_in": "2026-10-05",
+        "check_out": "2026-10-09"
+      },
+      "expected_result_ids": [
+        "Thames View Lodge",
+        "The Kensington Arms"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "hotel-have-002",
+    "input": {
+      "message": "Find me a hotel in Miami for the nights of October 5, 2026 through October 9, 2026."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Miami",
+        "check_in": "2026-10-05",
+        "check_out": "2026-10-09"
+      },
+      "expected_result_ids": [
+        "Biscayne Bay Hotel",
+        "Ocean Drive Resort"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "hotel-have-003",
+    "input": {
+      "message": "I need a hotel in New York from October 5, 2026 to October 9, 2026."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "New York",
+        "check_in": "2026-10-05",
+        "check_out": "2026-10-09"
+      },
+      "expected_result_ids": [
+        "Hudson Yards Suites",
+        "The Midtown Grand"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "hotel-have-004",
+    "input": {
+      "message": "What hotels are available in Paris from October 5, 2026 to October 9, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Paris",
+        "check_in": "2026-10-05",
+        "check_out": "2026-10-09"
+      },
+      "expected_result_ids": [
+        "Hotel Lumi\u00e8re",
+        "Rive Gauche H\u00f4tel"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "hotel-have-005",
+    "input": {
+      "message": "I need a hotel in San Francisco from October 5, 2026 to October 9, 2026."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "San Francisco",
+        "check_in": "2026-10-05",
+        "check_out": "2026-10-09"
+      },
+      "expected_result_ids": [
+        "Mission District Suites",
+        "Union Square Regency"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "hotel-have-006",
+    "input": {
+      "message": "Find me a hotel in Chicago for the nights of October 5, 2026 through October 9, 2026."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Chicago",
+        "check_in": "2026-10-05",
+        "check_out": "2026-10-09"
+      },
+      "expected_result_ids": [
+        "Lakefront Tower",
+        "The Loop Central",
+        "The Wrigleyville Hotel"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "hotel-have-007",
+    "input": {
+      "message": "I need a hotel in London from October 5, 2026 to October 9, 2026."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "London",
+        "check_in": "2026-10-05",
+        "check_out": "2026-10-09"
+      },
+      "expected_result_ids": [
+        "Thames View Lodge",
+        "The Kensington Arms"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "hotel-have-008",
+    "input": {
+      "message": "Can you find hotels in Miami for October 5, 2026 to October 9, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Miami",
+        "check_in": "2026-10-05",
+        "check_out": "2026-10-09"
+      },
+      "expected_result_ids": [
+        "Biscayne Bay Hotel",
+        "Ocean Drive Resort"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "hotel-have-009",
+    "input": {
+      "message": "I need a hotel in New York from October 5, 2026 to October 9, 2026."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "New York",
+        "check_in": "2026-10-05",
+        "check_out": "2026-10-09"
+      },
+      "expected_result_ids": [
+        "Hudson Yards Suites",
+        "The Midtown Grand"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "hotel-have-010",
+    "input": {
+      "message": "I need a hotel in Paris from October 5, 2026 to October 9, 2026."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Paris",
+        "check_in": "2026-10-05",
+        "check_out": "2026-10-09"
+      },
+      "expected_result_ids": [
+        "Hotel Lumi\u00e8re",
+        "Rive Gauche H\u00f4tel"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "hotel-have-011",
+    "input": {
+      "message": "Find me a hotel in San Francisco for the nights of October 5, 2026 through October 9, 2026."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "San Francisco",
+        "check_in": "2026-10-05",
+        "check_out": "2026-10-09"
+      },
+      "expected_result_ids": [
+        "Mission District Suites",
+        "Union Square Regency"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "hotel-have-012",
+    "input": {
+      "message": "I need a hotel in Chicago from October 5, 2026 to October 9, 2026."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Chicago",
+        "check_in": "2026-10-05",
+        "check_out": "2026-10-09"
+      },
+      "expected_result_ids": [
+        "Lakefront Tower",
+        "The Loop Central",
+        "The Wrigleyville Hotel"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "hotel-have-013",
+    "input": {
+      "message": "I need a hotel in London from October 5, 2026 to October 9, 2026."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "London",
+        "check_in": "2026-10-05",
+        "check_out": "2026-10-09"
+      },
+      "expected_result_ids": [
+        "Thames View Lodge",
+        "The Kensington Arms"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "hotel-have-014",
+    "input": {
+      "message": "I need a hotel in Miami from October 5, 2026 to October 9, 2026."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Miami",
+        "check_in": "2026-10-05",
+        "check_out": "2026-10-09"
+      },
+      "expected_result_ids": [
+        "Biscayne Bay Hotel",
+        "Ocean Drive Resort"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "hotel-have-015",
+    "input": {
+      "message": "Can you find hotels in New York for October 5, 2026 to October 9, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "New York",
+        "check_in": "2026-10-05",
+        "check_out": "2026-10-09"
+      },
+      "expected_result_ids": [
+        "Hudson Yards Suites",
+        "The Midtown Grand"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "hotel-have-016",
+    "input": {
+      "message": "Find me a hotel in Paris for the nights of October 5, 2026 through October 9, 2026."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Paris",
+        "check_in": "2026-10-05",
+        "check_out": "2026-10-09"
+      },
+      "expected_result_ids": [
+        "Hotel Lumi\u00e8re",
+        "Rive Gauche H\u00f4tel"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "hotel-have-017",
+    "input": {
+      "message": "Find me a hotel in San Francisco for the nights of October 5, 2026 through October 9, 2026."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "San Francisco",
+        "check_in": "2026-10-05",
+        "check_out": "2026-10-09"
+      },
+      "expected_result_ids": [
+        "Mission District Suites",
+        "Union Square Regency"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "hotel-have-018",
+    "input": {
+      "message": "Find me a hotel in Chicago for the nights of October 5, 2026 through October 9, 2026."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Chicago",
+        "check_in": "2026-10-05",
+        "check_out": "2026-10-09"
+      },
+      "expected_result_ids": [
+        "Lakefront Tower",
+        "The Loop Central",
+        "The Wrigleyville Hotel"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "hotel-have-019",
+    "input": {
+      "message": "What hotels are available in London from October 5, 2026 to October 9, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "London",
+        "check_in": "2026-10-05",
+        "check_out": "2026-10-09"
+      },
+      "expected_result_ids": [
+        "Thames View Lodge",
+        "The Kensington Arms"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "hotel-nodata-000",
+    "input": {
+      "message": "I need a hotel in Austin from November 3, 2026 to November 6, 2026."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Austin",
+        "check_in": "2026-11-03",
+        "check_out": "2026-11-06"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-nodata-001",
+    "input": {
+      "message": "What hotels are available in Denver from November 3, 2026 to November 6, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Denver",
+        "check_in": "2026-11-03",
+        "check_out": "2026-11-06"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-nodata-002",
+    "input": {
+      "message": "I need a hotel in Tokyo from November 3, 2026 to November 6, 2026."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Tokyo",
+        "check_in": "2026-11-03",
+        "check_out": "2026-11-06"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-nodata-003",
+    "input": {
+      "message": "Find me a hotel in Los Angeles for the nights of November 3, 2026 through November 6, 2026."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Los Angeles",
+        "check_in": "2026-11-03",
+        "check_out": "2026-11-06"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-nodata-004",
+    "input": {
+      "message": "Can you find hotels in Seattle for November 3, 2026 to November 6, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Seattle",
+        "check_in": "2026-11-03",
+        "check_out": "2026-11-06"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-nodata-005",
+    "input": {
+      "message": "I need a hotel in Austin from November 3, 2026 to November 6, 2026."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Austin",
+        "check_in": "2026-11-03",
+        "check_out": "2026-11-06"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-nodata-006",
+    "input": {
+      "message": "Find me a hotel in Denver for the nights of November 3, 2026 through November 6, 2026."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Denver",
+        "check_in": "2026-11-03",
+        "check_out": "2026-11-06"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-nodata-007",
+    "input": {
+      "message": "What hotels are available in Tokyo from November 3, 2026 to November 6, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Tokyo",
+        "check_in": "2026-11-03",
+        "check_out": "2026-11-06"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-nodata-008",
+    "input": {
+      "message": "I need a hotel in Los Angeles from November 3, 2026 to November 6, 2026."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Los Angeles",
+        "check_in": "2026-11-03",
+        "check_out": "2026-11-06"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-nodata-009",
+    "input": {
+      "message": "Can you find hotels in Seattle for November 3, 2026 to November 6, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Seattle",
+        "check_in": "2026-11-03",
+        "check_out": "2026-11-06"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-nodata-010",
+    "input": {
+      "message": "I need a hotel in Austin from November 3, 2026 to November 6, 2026."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Austin",
+        "check_in": "2026-11-03",
+        "check_out": "2026-11-06"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-nodata-011",
+    "input": {
+      "message": "What hotels are available in Denver from November 3, 2026 to November 6, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Denver",
+        "check_in": "2026-11-03",
+        "check_out": "2026-11-06"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-nodata-012",
+    "input": {
+      "message": "I need a hotel in Tokyo from November 3, 2026 to November 6, 2026."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Tokyo",
+        "check_in": "2026-11-03",
+        "check_out": "2026-11-06"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-nodata-013",
+    "input": {
+      "message": "What hotels are available in Los Angeles from November 3, 2026 to November 6, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Los Angeles",
+        "check_in": "2026-11-03",
+        "check_out": "2026-11-06"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-nodata-014",
+    "input": {
+      "message": "Can you find hotels in Seattle for November 3, 2026 to November 6, 2026?"
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Seattle",
+        "check_in": "2026-11-03",
+        "check_out": "2026-11-06"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-nodata-015",
+    "input": {
+      "message": "I need a hotel in Austin from November 3, 2026 to November 6, 2026."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Austin",
+        "check_in": "2026-11-03",
+        "check_out": "2026-11-06"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-window-000",
+    "input": {
+      "message": "Can you find hotels in Chicago for June 1, 2027 to June 5, 2027?"
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Chicago",
+        "check_in": "2027-06-01",
+        "check_out": "2027-06-05"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "date:window_closed",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-window-001",
+    "input": {
+      "message": "Find me a hotel in London for the nights of June 1, 2027 through June 5, 2027."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "London",
+        "check_in": "2027-06-01",
+        "check_out": "2027-06-05"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "date:window_closed",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-window-002",
+    "input": {
+      "message": "Find me a hotel in Miami for the nights of June 1, 2027 through June 5, 2027."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Miami",
+        "check_in": "2027-06-01",
+        "check_out": "2027-06-05"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "date:window_closed",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-window-003",
+    "input": {
+      "message": "What hotels are available in New York from June 1, 2027 to June 5, 2027?"
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "New York",
+        "check_in": "2027-06-01",
+        "check_out": "2027-06-05"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "date:window_closed",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-window-004",
+    "input": {
+      "message": "What hotels are available in Paris from June 1, 2027 to June 5, 2027?"
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Paris",
+        "check_in": "2027-06-01",
+        "check_out": "2027-06-05"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "date:window_closed",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-window-005",
+    "input": {
+      "message": "What hotels are available in San Francisco from June 1, 2027 to June 5, 2027?"
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "San Francisco",
+        "check_in": "2027-06-01",
+        "check_out": "2027-06-05"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "date:window_closed",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-window-006",
+    "input": {
+      "message": "Find me a hotel in Chicago for the nights of June 1, 2027 through June 5, 2027."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Chicago",
+        "check_in": "2027-06-01",
+        "check_out": "2027-06-05"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "date:window_closed",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-window-007",
+    "input": {
+      "message": "Find me a hotel in London for the nights of June 1, 2027 through June 5, 2027."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "London",
+        "check_in": "2027-06-01",
+        "check_out": "2027-06-05"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "date:window_closed",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-window-008",
+    "input": {
+      "message": "Find me a hotel in Miami for the nights of June 1, 2027 through June 5, 2027."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "Miami",
+        "check_in": "2027-06-01",
+        "check_out": "2027-06-05"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "date:window_closed",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "hotel-window-009",
+    "input": {
+      "message": "Find me a hotel in New York for the nights of June 1, 2027 through June 5, 2027."
+    },
+    "output": {
+      "expected_tool": "search_hotels",
+      "expected_args": {
+        "city": "New York",
+        "check_in": "2027-06-01",
+        "check_out": "2027-06-05"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "hotel",
+      "cell": "date:window_closed",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "weather-have-000",
+    "input": {
+      "message": "How's the weather looking in Chicago on October 20, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "Chicago",
+        "date": "2026-10-20"
+      },
+      "expected_result_ids": [
+        "Chicago"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "weather-have-001",
+    "input": {
+      "message": "What's the weather like in Los Angeles on October 20, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "Los Angeles",
+        "date": "2026-10-20"
+      },
+      "expected_result_ids": [
+        "Los Angeles"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "weather-have-002",
+    "input": {
+      "message": "How's the weather looking in Miami on October 20, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "Miami",
+        "date": "2026-10-20"
+      },
+      "expected_result_ids": [
+        "Miami"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "weather-have-003",
+    "input": {
+      "message": "How's the weather looking in New York on October 20, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "New York",
+        "date": "2026-10-20"
+      },
+      "expected_result_ids": [
+        "New York"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "weather-have-004",
+    "input": {
+      "message": "How's the weather looking in Paris on October 20, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "Paris",
+        "date": "2026-10-20"
+      },
+      "expected_result_ids": [
+        "Paris"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "weather-have-005",
+    "input": {
+      "message": "What should I expect weather-wise in San Francisco on October 20, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "San Francisco",
+        "date": "2026-10-20"
+      },
+      "expected_result_ids": [
+        "San Francisco"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "weather-have-006",
+    "input": {
+      "message": "How's the weather looking in Tokyo on October 20, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "Tokyo",
+        "date": "2026-10-20"
+      },
+      "expected_result_ids": [
+        "Tokyo"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "weather-have-007",
+    "input": {
+      "message": "What's the weather like in Chicago on October 20, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "Chicago",
+        "date": "2026-10-20"
+      },
+      "expected_result_ids": [
+        "Chicago"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "weather-have-008",
+    "input": {
+      "message": "How's the weather looking in Los Angeles on October 20, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "Los Angeles",
+        "date": "2026-10-20"
+      },
+      "expected_result_ids": [
+        "Los Angeles"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "weather-have-009",
+    "input": {
+      "message": "How's the weather looking in Miami on October 20, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "Miami",
+        "date": "2026-10-20"
+      },
+      "expected_result_ids": [
+        "Miami"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "weather-have-010",
+    "input": {
+      "message": "How's the weather looking in New York on October 20, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "New York",
+        "date": "2026-10-20"
+      },
+      "expected_result_ids": [
+        "New York"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "weather-have-011",
+    "input": {
+      "message": "What's the weather like in Paris on October 20, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "Paris",
+        "date": "2026-10-20"
+      },
+      "expected_result_ids": [
+        "Paris"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:has_data",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "weather-nodata-000",
+    "input": {
+      "message": "What's the weather like in London on November 18, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "London",
+        "date": "2026-11-18"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "weather-nodata-001",
+    "input": {
+      "message": "How's the weather looking in Denver on November 18, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "Denver",
+        "date": "2026-11-18"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "weather-nodata-002",
+    "input": {
+      "message": "How's the weather looking in Austin on November 18, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "Austin",
+        "date": "2026-11-18"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "weather-nodata-003",
+    "input": {
+      "message": "What's the weather like in Boston on November 18, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "Boston",
+        "date": "2026-11-18"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "weather-nodata-004",
+    "input": {
+      "message": "How's the weather looking in London on November 18, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "London",
+        "date": "2026-11-18"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "weather-nodata-005",
+    "input": {
+      "message": "How's the weather looking in Denver on November 18, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "Denver",
+        "date": "2026-11-18"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "weather-nodata-006",
+    "input": {
+      "message": "What's the weather like in Austin on November 18, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "Austin",
+        "date": "2026-11-18"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "weather-nodata-007",
+    "input": {
+      "message": "What should I expect weather-wise in Boston on November 18, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "Boston",
+        "date": "2026-11-18"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "weather-nodata-008",
+    "input": {
+      "message": "What should I expect weather-wise in London on November 18, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "London",
+        "date": "2026-11-18"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "weather-nodata-009",
+    "input": {
+      "message": "How's the weather looking in Denver on November 18, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "Denver",
+        "date": "2026-11-18"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "weather-nodata-010",
+    "input": {
+      "message": "How's the weather looking in Austin on November 18, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "Austin",
+        "date": "2026-11-18"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "weather-nodata-011",
+    "input": {
+      "message": "What should I expect weather-wise in Boston on November 18, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "Boston",
+        "date": "2026-11-18"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "weather-nodata-012",
+    "input": {
+      "message": "What's the weather like in London on November 18, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "London",
+        "date": "2026-11-18"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "weather-nodata-013",
+    "input": {
+      "message": "What should I expect weather-wise in Denver on November 18, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "Denver",
+        "date": "2026-11-18"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "weather-nodata-014",
+    "input": {
+      "message": "How's the weather looking in Austin on November 18, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "Austin",
+        "date": "2026-11-18"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "weather-nodata-015",
+    "input": {
+      "message": "What should I expect weather-wise in Boston on November 18, 2026?"
+    },
+    "output": {
+      "expected_tool": "get_weather",
+      "expected_args": {
+        "city": "Boston",
+        "date": "2026-11-18"
+      },
+      "expected_result_ids": [],
+      "expected_behavior": "empty"
+    },
+    "metadata": {
+      "intent": "weather",
+      "cell": "city:no_data",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "itinerary-001",
+    "input": {
+      "message": "Plan a 1-day trip to Paris for me."
+    },
+    "output": {
+      "expected_tool": "create_itinerary",
+      "expected_args": {
+        "destination": "Paris",
+        "num_days": 1
+      },
+      "expected_result_ids": [
+        "1"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "itinerary",
+      "cell": "num_days:1",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "itinerary-002",
+    "input": {
+      "message": "Plan a 1-day trip to Miami for me."
+    },
+    "output": {
+      "expected_tool": "create_itinerary",
+      "expected_args": {
+        "destination": "Miami",
+        "num_days": 1
+      },
+      "expected_result_ids": [
+        "1"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "itinerary",
+      "cell": "num_days:1",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "itinerary-003",
+    "input": {
+      "message": "Plan a 1-day trip to Chicago for me."
+    },
+    "output": {
+      "expected_tool": "create_itinerary",
+      "expected_args": {
+        "destination": "Chicago",
+        "num_days": 1
+      },
+      "expected_result_ids": [
+        "1"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "itinerary",
+      "cell": "num_days:1",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "itinerary-004",
+    "input": {
+      "message": "Plan a 2-day trip to Chicago for me."
+    },
+    "output": {
+      "expected_tool": "create_itinerary",
+      "expected_args": {
+        "destination": "Chicago",
+        "num_days": 2
+      },
+      "expected_result_ids": [
+        "1",
+        "2"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "itinerary",
+      "cell": "num_days:2",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "itinerary-005",
+    "input": {
+      "message": "Plan a 2-day trip to London for me."
+    },
+    "output": {
+      "expected_tool": "create_itinerary",
+      "expected_args": {
+        "destination": "London",
+        "num_days": 2
+      },
+      "expected_result_ids": [
+        "1",
+        "2"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "itinerary",
+      "cell": "num_days:2",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "itinerary-006",
+    "input": {
+      "message": "Plan a 2-day trip to New York for me."
+    },
+    "output": {
+      "expected_tool": "create_itinerary",
+      "expected_args": {
+        "destination": "New York",
+        "num_days": 2
+      },
+      "expected_result_ids": [
+        "1",
+        "2"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "itinerary",
+      "cell": "num_days:2",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "itinerary-007",
+    "input": {
+      "message": "Plan a 3-day trip to Tokyo for me."
+    },
+    "output": {
+      "expected_tool": "create_itinerary",
+      "expected_args": {
+        "destination": "Tokyo",
+        "num_days": 3
+      },
+      "expected_result_ids": [
+        "1",
+        "2",
+        "3"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "itinerary",
+      "cell": "num_days:3",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "itinerary-008",
+    "input": {
+      "message": "Plan a 3-day trip to Paris for me."
+    },
+    "output": {
+      "expected_tool": "create_itinerary",
+      "expected_args": {
+        "destination": "Paris",
+        "num_days": 3
+      },
+      "expected_result_ids": [
+        "1",
+        "2",
+        "3"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "itinerary",
+      "cell": "num_days:3",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "itinerary-009",
+    "input": {
+      "message": "Plan a 3-day trip to London for me."
+    },
+    "output": {
+      "expected_tool": "create_itinerary",
+      "expected_args": {
+        "destination": "London",
+        "num_days": 3
+      },
+      "expected_result_ids": [
+        "1",
+        "2",
+        "3"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "itinerary",
+      "cell": "num_days:3",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "itinerary-010",
+    "input": {
+      "message": "Plan a 4-day trip to Tokyo for me."
+    },
+    "output": {
+      "expected_tool": "create_itinerary",
+      "expected_args": {
+        "destination": "Tokyo",
+        "num_days": 4
+      },
+      "expected_result_ids": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "itinerary",
+      "cell": "num_days:4",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "itinerary-011",
+    "input": {
+      "message": "Plan a 4-day trip to Chicago for me."
+    },
+    "output": {
+      "expected_tool": "create_itinerary",
+      "expected_args": {
+        "destination": "Chicago",
+        "num_days": 4
+      },
+      "expected_result_ids": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "itinerary",
+      "cell": "num_days:4",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "itinerary-012",
+    "input": {
+      "message": "Plan a 4-day trip to Paris for me."
+    },
+    "output": {
+      "expected_tool": "create_itinerary",
+      "expected_args": {
+        "destination": "Paris",
+        "num_days": 4
+      },
+      "expected_result_ids": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "itinerary",
+      "cell": "num_days:4",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "itinerary-013",
+    "input": {
+      "message": "Plan a 5-day trip to Tokyo for me."
+    },
+    "output": {
+      "expected_tool": "create_itinerary",
+      "expected_args": {
+        "destination": "Tokyo",
+        "num_days": 5
+      },
+      "expected_result_ids": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "itinerary",
+      "cell": "num_days:5",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "itinerary-014",
+    "input": {
+      "message": "Plan a 5-day trip to New York for me."
+    },
+    "output": {
+      "expected_tool": "create_itinerary",
+      "expected_args": {
+        "destination": "New York",
+        "num_days": 5
+      },
+      "expected_result_ids": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "itinerary",
+      "cell": "num_days:5",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "itinerary-015",
+    "input": {
+      "message": "Plan a 5-day trip to Paris for me."
+    },
+    "output": {
+      "expected_tool": "create_itinerary",
+      "expected_args": {
+        "destination": "Paris",
+        "num_days": 5
+      },
+      "expected_result_ids": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "itinerary",
+      "cell": "num_days:5",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "itinerary-016",
+    "input": {
+      "message": "Plan a 7-day trip to London for me."
+    },
+    "output": {
+      "expected_tool": "create_itinerary",
+      "expected_args": {
+        "destination": "London",
+        "num_days": 7
+      },
+      "expected_result_ids": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "itinerary",
+      "cell": "num_days:7",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "itinerary-017",
+    "input": {
+      "message": "Plan a 7-day trip to Miami for me."
+    },
+    "output": {
+      "expected_tool": "create_itinerary",
+      "expected_args": {
+        "destination": "Miami",
+        "num_days": 7
+      },
+      "expected_result_ids": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "itinerary",
+      "cell": "num_days:7",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "itinerary-018",
+    "input": {
+      "message": "Plan a 7-day trip to Paris for me."
+    },
+    "output": {
+      "expected_tool": "create_itinerary",
+      "expected_args": {
+        "destination": "Paris",
+        "num_days": 7
+      },
+      "expected_result_ids": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "itinerary",
+      "cell": "num_days:7",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "scope-000",
+    "input": {
+      "message": "Do I need a visa to visit Japan as a US citizen?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-001",
+    "input": {
+      "message": "I booked a flight through you last month and need a refund \u2014 can you process that?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-002",
+    "input": {
+      "message": "How much would a hotel in London cost per night in euros?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-003",
+    "input": {
+      "message": "What's the baggage allowance on Delta?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-004",
+    "input": {
+      "message": "Can you cancel my reservation and refund the card ending 4412?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-005",
+    "input": {
+      "message": "What's the exchange rate between dollars and yen right now?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-006",
+    "input": {
+      "message": "Is my passport still valid if it expires in three months?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-007",
+    "input": {
+      "message": "Can you upgrade me to business class using my miles?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-008",
+    "input": {
+      "message": "What vaccinations do I need for Brazil?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-009",
+    "input": {
+      "message": "Who won the World Cup in 2022?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-010",
+    "input": {
+      "message": "Can you write me a poem about airports?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-011",
+    "input": {
+      "message": "What's your refund policy for cancelled bookings?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-012",
+    "input": {
+      "message": "Do I need a visa to visit Japan as a US citizen?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-013",
+    "input": {
+      "message": "I booked a flight through you last month and need a refund \u2014 can you process that?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-014",
+    "input": {
+      "message": "How much would a hotel in London cost per night in euros?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-015",
+    "input": {
+      "message": "What's the baggage allowance on Delta?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-016",
+    "input": {
+      "message": "Can you cancel my reservation and refund the card ending 4412?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-017",
+    "input": {
+      "message": "What's the exchange rate between dollars and yen right now?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-018",
+    "input": {
+      "message": "Is my passport still valid if it expires in three months?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-019",
+    "input": {
+      "message": "Can you upgrade me to business class using my miles?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-020",
+    "input": {
+      "message": "What vaccinations do I need for Brazil?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-021",
+    "input": {
+      "message": "Who won the World Cup in 2022?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-022",
+    "input": {
+      "message": "Can you write me a poem about airports?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-023",
+    "input": {
+      "message": "What's your refund policy for cancelled bookings?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-024",
+    "input": {
+      "message": "Do I need a visa to visit Japan as a US citizen?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-025",
+    "input": {
+      "message": "I booked a flight through you last month and need a refund \u2014 can you process that?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-026",
+    "input": {
+      "message": "How much would a hotel in London cost per night in euros?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-027",
+    "input": {
+      "message": "What's the baggage allowance on Delta?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-028",
+    "input": {
+      "message": "Can you cancel my reservation and refund the card ending 4412?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "scope-029",
+    "input": {
+      "message": "What's the exchange rate between dollars and yen right now?"
+    },
+    "output": {
+      "expected_tool": null,
+      "expected_args": {},
+      "expected_result_ids": [],
+      "expected_behavior": "out_of_scope"
+    },
+    "metadata": {
+      "intent": "out_of_scope",
+      "cell": "scope:out",
+      "suite": "capability"
+    }
+  },
+  {
+    "id": "multi-flightweather-001",
+    "input": {
+      "message": "Find me a flight from New York to Miami on October 1, 2026, and tell me what the weather will be like there."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "New York",
+        "destination": "Miami",
+        "date": "2026-10-01"
+      },
+      "expected_result_ids": [
+        "B6 1029",
+        "DL 883"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "multi_tool",
+      "cell": "tools:flight+weather",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "multi-flighthotel-002",
+    "input": {
+      "message": "I'm flying New York to Miami on October 1, 2026 \u2014 find flights and a hotel for that week."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "New York",
+        "destination": "Miami",
+        "date": "2026-10-01"
+      },
+      "expected_result_ids": [
+        "B6 1029",
+        "DL 883"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "multi_tool",
+      "cell": "tools:flight+hotel",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "multi-flightweather-003",
+    "input": {
+      "message": "Find me a flight from New York to Paris on September 15, 2026, and tell me what the weather will be like there."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "New York",
+        "destination": "Paris",
+        "date": "2026-09-15"
+      },
+      "expected_result_ids": [
+        "AF 23",
+        "DL 263"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "multi_tool",
+      "cell": "tools:flight+weather",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "multi-flighthotel-004",
+    "input": {
+      "message": "I'm flying New York to Paris on September 15, 2026 \u2014 find flights and a hotel for that week."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "New York",
+        "destination": "Paris",
+        "date": "2026-09-15"
+      },
+      "expected_result_ids": [
+        "AF 23",
+        "DL 263"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "multi_tool",
+      "cell": "tools:flight+hotel",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "multi-flightweather-005",
+    "input": {
+      "message": "Find me a flight from San Francisco to Tokyo on November 20, 2026, and tell me what the weather will be like there."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "San Francisco",
+        "destination": "Tokyo",
+        "date": "2026-11-20"
+      },
+      "expected_result_ids": [
+        "NH 7",
+        "UA 837"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "multi_tool",
+      "cell": "tools:flight+weather",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "multi-flighthotel-006",
+    "input": {
+      "message": "I'm flying San Francisco to Tokyo on November 20, 2026 \u2014 find flights and a hotel for that week."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "San Francisco",
+        "destination": "Tokyo",
+        "date": "2026-11-20"
+      },
+      "expected_result_ids": [
+        "NH 7",
+        "UA 837"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "multi_tool",
+      "cell": "tools:flight+hotel",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "multi-flightweather-007",
+    "input": {
+      "message": "Find me a flight from Chicago to Denver on October 8, 2026, and tell me what the weather will be like there."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Chicago",
+        "destination": "Denver",
+        "date": "2026-10-08"
+      },
+      "expected_result_ids": [
+        "UA 2044"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "multi_tool",
+      "cell": "tools:flight+weather",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "multi-flighthotel-008",
+    "input": {
+      "message": "I'm flying Chicago to Denver on October 8, 2026 \u2014 find flights and a hotel for that week."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "Chicago",
+        "destination": "Denver",
+        "date": "2026-10-08"
+      },
+      "expected_result_ids": [
+        "UA 2044"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "multi_tool",
+      "cell": "tools:flight+hotel",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "multi-flightweather-009",
+    "input": {
+      "message": "Find me a flight from London to Paris on November 5, 2026, and tell me what the weather will be like there."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "London",
+        "destination": "Paris",
+        "date": "2026-11-05"
+      },
+      "expected_result_ids": [
+        "BA 306"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "multi_tool",
+      "cell": "tools:flight+weather",
+      "suite": "regression"
+    }
+  },
+  {
+    "id": "multi-flighthotel-010",
+    "input": {
+      "message": "I'm flying London to Paris on November 5, 2026 \u2014 find flights and a hotel for that week."
+    },
+    "output": {
+      "expected_tool": "search_flights",
+      "expected_args": {
+        "origin": "London",
+        "destination": "Paris",
+        "date": "2026-11-05"
+      },
+      "expected_result_ids": [
+        "BA 306"
+      ],
+      "expected_behavior": "answer"
+    },
+    "metadata": {
+      "intent": "multi_tool",
+      "cell": "tools:flight+hotel",
+      "suite": "regression"
+    }
+  }
+]

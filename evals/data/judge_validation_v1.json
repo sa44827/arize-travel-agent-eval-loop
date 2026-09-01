@@ -1,0 +1,3718 @@
+[
+  {
+    "id": "ground-ok-001",
+    "input": {
+      "message": "Find me a flight from San Francisco to Tokyo on 2026-10-14."
+    },
+    "output": {
+      "reply": "I found 1 option. United UA 837 leaves at 11:30 ($987).",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "San Francisco",
+            "destination": "Tokyo",
+            "date": "2026-10-14"
+          },
+          "output": [
+            {
+              "airline": "United",
+              "flight_number": "UA 837",
+              "depart_time": "11:30",
+              "arrive_time": "15:10",
+              "price_usd": 987
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-001",
+    "input": {
+      "message": "Find me a flight from San Francisco to Tokyo on 2026-10-14."
+    },
+    "output": {
+      "reply": "United UA 837 departs at 08:30 for $987.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "San Francisco",
+            "destination": "Tokyo",
+            "date": "2026-10-14"
+          },
+          "output": [
+            {
+              "airline": "United",
+              "flight_number": "UA 837",
+              "depart_time": "11:30",
+              "arrive_time": "15:10",
+              "price_usd": 987
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "wrong_time"
+  },
+  {
+    "id": "ground-ok-002",
+    "input": {
+      "message": "Find me a flight from San Francisco to Tokyo on 2027-05-24."
+    },
+    "output": {
+      "reply": "UA 837 \u2014 $987, departing 11:30. NH 7 \u2014 $1104, departing 13:45.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "San Francisco",
+            "destination": "Tokyo",
+            "date": "2027-05-24"
+          },
+          "output": [
+            {
+              "airline": "United",
+              "flight_number": "UA 837",
+              "depart_time": "11:30",
+              "arrive_time": "15:10",
+              "price_usd": 987
+            },
+            {
+              "airline": "ANA",
+              "flight_number": "NH 7",
+              "depart_time": "13:45",
+              "arrive_time": "17:25",
+              "price_usd": 1104
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-002",
+    "input": {
+      "message": "Find me a flight from San Francisco to Tokyo on 2027-05-24."
+    },
+    "output": {
+      "reply": "I'd recommend ANA NH 7 at $1104 \u2014 it's the cheapest option available.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "San Francisco",
+            "destination": "Tokyo",
+            "date": "2027-05-24"
+          },
+          "output": [
+            {
+              "airline": "United",
+              "flight_number": "UA 837",
+              "depart_time": "11:30",
+              "arrive_time": "15:10",
+              "price_usd": 987
+            },
+            {
+              "airline": "ANA",
+              "flight_number": "NH 7",
+              "depart_time": "13:45",
+              "arrive_time": "17:25",
+              "price_usd": 1104
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "false_superlative"
+  },
+  {
+    "id": "ground-ok-003",
+    "input": {
+      "message": "Find me a flight from Los Angeles to San Francisco on 2027-05-02."
+    },
+    "output": {
+      "reply": "Here are your options: Delta DL 1580 departs 12:35 for $104. Delta DL 1580 is the cheapest at $104.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Los Angeles",
+            "destination": "San Francisco",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "Delta",
+              "flight_number": "DL 1580",
+              "depart_time": "12:35",
+              "arrive_time": "14:00",
+              "price_usd": 104
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-003",
+    "input": {
+      "message": "Find me a flight from Los Angeles to San Francisco on 2027-05-02."
+    },
+    "output": {
+      "reply": "Delta DL 1580 departs 12:35 for $104, and DL 4770 departs later the same day for $134.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Los Angeles",
+            "destination": "San Francisco",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "Delta",
+              "flight_number": "DL 1580",
+              "depart_time": "12:35",
+              "arrive_time": "14:00",
+              "price_usd": 104
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "invented_flight"
+  },
+  {
+    "id": "ground-ok-004",
+    "input": {
+      "message": "Find me a flight from San Francisco to New York on 2027-05-02."
+    },
+    "output": {
+      "reply": "Here are your options: Delta DL 310 departs 07:45 for $392. Delta DL 310 is the cheapest at $392.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "San Francisco",
+            "destination": "New York",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "Delta",
+              "flight_number": "DL 310",
+              "depart_time": "07:45",
+              "arrive_time": "16:10",
+              "price_usd": 392
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-004",
+    "input": {
+      "message": "Find me a flight from San Francisco to New York on 2027-05-02."
+    },
+    "output": {
+      "reply": "Delta DL 310 departs 07:45 for $392. It arrives at Terminal 4 and typically runs on time.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "San Francisco",
+            "destination": "New York",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "Delta",
+              "flight_number": "DL 310",
+              "depart_time": "07:45",
+              "arrive_time": "16:10",
+              "price_usd": 392
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "absent_attribute"
+  },
+  {
+    "id": "ground-ok-005",
+    "input": {
+      "message": "Find me a flight from Denver to Chicago on 2027-05-02."
+    },
+    "output": {
+      "reply": "UA 2045 \u2014 $152, departing 13:20.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Denver",
+            "destination": "Chicago",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "United",
+              "flight_number": "UA 2045",
+              "depart_time": "13:20",
+              "arrive_time": "16:40",
+              "price_usd": 152
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-005",
+    "input": {
+      "message": "Find me a flight from Denver to Chicago on 2027-05-02."
+    },
+    "output": {
+      "reply": "United UA 2045 departs 13:20 for $152. Checked baggage is included in the $152 fare.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Denver",
+            "destination": "Chicago",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "United",
+              "flight_number": "UA 2045",
+              "depart_time": "13:20",
+              "arrive_time": "16:40",
+              "price_usd": 152
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "absent_attribute"
+  },
+  {
+    "id": "ground-ok-006",
+    "input": {
+      "message": "Find me a flight from New York to San Francisco on 2027-05-02."
+    },
+    "output": {
+      "reply": "Here are your options: United UA 421 departs 08:25 for $378. United UA 421 is the cheapest at $378.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "New York",
+            "destination": "San Francisco",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "United",
+              "flight_number": "UA 421",
+              "depart_time": "08:25",
+              "arrive_time": "12:05",
+              "price_usd": 378
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-006",
+    "input": {
+      "message": "Find me a flight from New York to San Francisco on 2027-05-02."
+    },
+    "output": {
+      "reply": "Here are your options: United UA 421 departs 08:25 for $423.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "New York",
+            "destination": "San Francisco",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "United",
+              "flight_number": "UA 421",
+              "depart_time": "08:25",
+              "arrive_time": "12:05",
+              "price_usd": 378
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "wrong_price"
+  },
+  {
+    "id": "ground-ok-007",
+    "input": {
+      "message": "Find me a flight from New York to Miami on 2026-11-01."
+    },
+    "output": {
+      "reply": "Here are your options: Delta DL 883 departs 09:40 for $214. Delta DL 883 is the cheapest at $214.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "New York",
+            "destination": "Miami",
+            "date": "2026-11-01"
+          },
+          "output": [
+            {
+              "airline": "Delta",
+              "flight_number": "DL 883",
+              "depart_time": "09:40",
+              "arrive_time": "12:55",
+              "price_usd": 214
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-007",
+    "input": {
+      "message": "Find me a flight from New York to Miami on 2026-11-01."
+    },
+    "output": {
+      "reply": "Delta DL 883 departs at 06:40 for $214.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "New York",
+            "destination": "Miami",
+            "date": "2026-11-01"
+          },
+          "output": [
+            {
+              "airline": "Delta",
+              "flight_number": "DL 883",
+              "depart_time": "09:40",
+              "arrive_time": "12:55",
+              "price_usd": 214
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "wrong_time"
+  },
+  {
+    "id": "ground-ok-008",
+    "input": {
+      "message": "Find me a flight from New York to Miami on 2026-10-01."
+    },
+    "output": {
+      "reply": "DL 883 \u2014 $214, departing 09:40. B6 1029 \u2014 $189, departing 15:20.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "New York",
+            "destination": "Miami",
+            "date": "2026-10-01"
+          },
+          "output": [
+            {
+              "airline": "Delta",
+              "flight_number": "DL 883",
+              "depart_time": "09:40",
+              "arrive_time": "12:55",
+              "price_usd": 214
+            },
+            {
+              "airline": "JetBlue",
+              "flight_number": "B6 1029",
+              "depart_time": "15:20",
+              "arrive_time": "18:39",
+              "price_usd": 189
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-008",
+    "input": {
+      "message": "Find me a flight from New York to Miami on 2026-10-01."
+    },
+    "output": {
+      "reply": "I'd recommend Delta DL 883 at $214 \u2014 it's the cheapest option available.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "New York",
+            "destination": "Miami",
+            "date": "2026-10-01"
+          },
+          "output": [
+            {
+              "airline": "Delta",
+              "flight_number": "DL 883",
+              "depart_time": "09:40",
+              "arrive_time": "12:55",
+              "price_usd": 214
+            },
+            {
+              "airline": "JetBlue",
+              "flight_number": "B6 1029",
+              "depart_time": "15:20",
+              "arrive_time": "18:39",
+              "price_usd": 189
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "false_superlative"
+  },
+  {
+    "id": "ground-ok-009",
+    "input": {
+      "message": "Find me a flight from Tokyo to San Francisco on 2027-05-02."
+    },
+    "output": {
+      "reply": "UA 838 \u2014 $1015, departing 17:05.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Tokyo",
+            "destination": "San Francisco",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "United",
+              "flight_number": "UA 838",
+              "depart_time": "17:05",
+              "arrive_time": "10:25",
+              "price_usd": 1015
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-009",
+    "input": {
+      "message": "Find me a flight from Tokyo to San Francisco on 2027-05-02."
+    },
+    "output": {
+      "reply": "United UA 838 departs 17:05 for $1015, and UA 4917 departs later the same day for $1045.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Tokyo",
+            "destination": "San Francisco",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "United",
+              "flight_number": "UA 838",
+              "depart_time": "17:05",
+              "arrive_time": "10:25",
+              "price_usd": 1015
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "invented_flight"
+  },
+  {
+    "id": "ground-ok-010",
+    "input": {
+      "message": "Find me a flight from Los Angeles to Tokyo on 2026-10-16."
+    },
+    "output": {
+      "reply": "The earliest departure is ANA NH 105 at 10:50, priced at $1042.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Los Angeles",
+            "destination": "Tokyo",
+            "date": "2026-10-16"
+          },
+          "output": [
+            {
+              "airline": "ANA",
+              "flight_number": "NH 105",
+              "depart_time": "10:50",
+              "arrive_time": "14:55",
+              "price_usd": 1042
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-010",
+    "input": {
+      "message": "Find me a flight from Los Angeles to Tokyo on 2026-10-16."
+    },
+    "output": {
+      "reply": "ANA NH 105 departs 10:50 for $1042. There are 12 seats left at this fare.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Los Angeles",
+            "destination": "Tokyo",
+            "date": "2026-10-16"
+          },
+          "output": [
+            {
+              "airline": "ANA",
+              "flight_number": "NH 105",
+              "depart_time": "10:50",
+              "arrive_time": "14:55",
+              "price_usd": 1042
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "absent_attribute"
+  },
+  {
+    "id": "ground-ok-011",
+    "input": {
+      "message": "Find me a flight from New York to London on 2027-05-02."
+    },
+    "output": {
+      "reply": "The earliest departure is Delta DL 24 at 19:30, priced at $645.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "New York",
+            "destination": "London",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "Delta",
+              "flight_number": "DL 24",
+              "depart_time": "19:30",
+              "arrive_time": "07:20",
+              "price_usd": 645
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-011",
+    "input": {
+      "message": "Find me a flight from New York to London on 2027-05-02."
+    },
+    "output": {
+      "reply": "Delta DL 24 departs 19:30 for $645. Checked baggage is included in the $645 fare.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "New York",
+            "destination": "London",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "Delta",
+              "flight_number": "DL 24",
+              "depart_time": "19:30",
+              "arrive_time": "07:20",
+              "price_usd": 645
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "absent_attribute"
+  },
+  {
+    "id": "ground-ok-012",
+    "input": {
+      "message": "Find me a flight from Chicago to Miami on 2027-01-15."
+    },
+    "output": {
+      "reply": "I found 1 option. Southwest WN 1512 leaves at 07:35 ($167).",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Chicago",
+            "destination": "Miami",
+            "date": "2027-01-15"
+          },
+          "output": [
+            {
+              "airline": "Southwest",
+              "flight_number": "WN 1512",
+              "depart_time": "07:35",
+              "arrive_time": "11:50",
+              "price_usd": 167
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-012",
+    "input": {
+      "message": "Find me a flight from Chicago to Miami on 2027-01-15."
+    },
+    "output": {
+      "reply": "Here are your options: Southwest WN 1512 departs 07:35 for $127.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Chicago",
+            "destination": "Miami",
+            "date": "2027-01-15"
+          },
+          "output": [
+            {
+              "airline": "Southwest",
+              "flight_number": "WN 1512",
+              "depart_time": "07:35",
+              "arrive_time": "11:50",
+              "price_usd": 167
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "wrong_price"
+  },
+  {
+    "id": "ground-ok-013",
+    "input": {
+      "message": "Find me a flight from London to New York on 2027-05-02."
+    },
+    "output": {
+      "reply": "The earliest departure is British Airways BA 178 at 11:25, priced at $689.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "London",
+            "destination": "New York",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "British Airways",
+              "flight_number": "BA 178",
+              "depart_time": "11:25",
+              "arrive_time": "14:10",
+              "price_usd": 689
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-013",
+    "input": {
+      "message": "Find me a flight from London to New York on 2027-05-02."
+    },
+    "output": {
+      "reply": "British Airways BA 178 departs at 13:25 for $689.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "London",
+            "destination": "New York",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "British Airways",
+              "flight_number": "BA 178",
+              "depart_time": "11:25",
+              "arrive_time": "14:10",
+              "price_usd": 689
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "wrong_time"
+  },
+  {
+    "id": "ground-ok-014",
+    "input": {
+      "message": "Find me a flight from London to Paris on 2027-05-02."
+    },
+    "output": {
+      "reply": "BA 306 \u2014 $142, departing 08:20.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "London",
+            "destination": "Paris",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "British Airways",
+              "flight_number": "BA 306",
+              "depart_time": "08:20",
+              "arrive_time": "10:40",
+              "price_usd": 142
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-014",
+    "input": {
+      "message": "Find me a flight from London to Paris on 2027-05-02."
+    },
+    "output": {
+      "reply": "British Airways BA 306 departs 08:20 for $142, and BA 4465 departs later the same day for $172.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "London",
+            "destination": "Paris",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "British Airways",
+              "flight_number": "BA 306",
+              "depart_time": "08:20",
+              "arrive_time": "10:40",
+              "price_usd": 142
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "invented_flight"
+  },
+  {
+    "id": "ground-ok-015",
+    "input": {
+      "message": "Find me a flight from Los Angeles to New York on 2026-10-31."
+    },
+    "output": {
+      "reply": "Here are your options: American AA 118 departs 08:00 for $356. American AA 118 is the cheapest at $356.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Los Angeles",
+            "destination": "New York",
+            "date": "2026-10-31"
+          },
+          "output": [
+            {
+              "airline": "American",
+              "flight_number": "AA 118",
+              "depart_time": "08:00",
+              "arrive_time": "16:21",
+              "price_usd": 356
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-015",
+    "input": {
+      "message": "Find me a flight from Los Angeles to New York on 2026-10-31."
+    },
+    "output": {
+      "reply": "American AA 118 departs 08:00 for $356, and AA 4021 departs later the same day for $386.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Los Angeles",
+            "destination": "New York",
+            "date": "2026-10-31"
+          },
+          "output": [
+            {
+              "airline": "American",
+              "flight_number": "AA 118",
+              "depart_time": "08:00",
+              "arrive_time": "16:21",
+              "price_usd": 356
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "invented_flight"
+  },
+  {
+    "id": "ground-ok-016",
+    "input": {
+      "message": "Find me a flight from Los Angeles to New York on 2027-06-01."
+    },
+    "output": {
+      "reply": "AA 118 \u2014 $356, departing 08:00. DL 2119 \u2014 $301, departing 22:45.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Los Angeles",
+            "destination": "New York",
+            "date": "2027-06-01"
+          },
+          "output": [
+            {
+              "airline": "American",
+              "flight_number": "AA 118",
+              "depart_time": "08:00",
+              "arrive_time": "16:21",
+              "price_usd": 356
+            },
+            {
+              "airline": "Delta",
+              "flight_number": "DL 2119",
+              "depart_time": "22:45",
+              "arrive_time": "07:02",
+              "price_usd": 301
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-016",
+    "input": {
+      "message": "Find me a flight from Los Angeles to New York on 2027-06-01."
+    },
+    "output": {
+      "reply": "American AA 118 departs 08:00 for $356. This is a nonstop service operated by an Airbus A320.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Los Angeles",
+            "destination": "New York",
+            "date": "2027-06-01"
+          },
+          "output": [
+            {
+              "airline": "American",
+              "flight_number": "AA 118",
+              "depart_time": "08:00",
+              "arrive_time": "16:21",
+              "price_usd": 356
+            },
+            {
+              "airline": "Delta",
+              "flight_number": "DL 2119",
+              "depart_time": "22:45",
+              "arrive_time": "07:02",
+              "price_usd": 301
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "absent_attribute"
+  },
+  {
+    "id": "ground-ok-017",
+    "input": {
+      "message": "Find me a flight from Chicago to New York on 2027-05-02."
+    },
+    "output": {
+      "reply": "The earliest departure is United UA 513 at 09:15, priced at $182.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Chicago",
+            "destination": "New York",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "United",
+              "flight_number": "UA 513",
+              "depart_time": "09:15",
+              "arrive_time": "12:33",
+              "price_usd": 182
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-017",
+    "input": {
+      "message": "Find me a flight from Chicago to New York on 2027-05-02."
+    },
+    "output": {
+      "reply": "United UA 513 departs 09:15 for $182. Checked baggage is included in the $182 fare.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Chicago",
+            "destination": "New York",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "United",
+              "flight_number": "UA 513",
+              "depart_time": "09:15",
+              "arrive_time": "12:33",
+              "price_usd": 182
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "absent_attribute"
+  },
+  {
+    "id": "ground-ok-018",
+    "input": {
+      "message": "Find me a flight from New York to Los Angeles on 2027-05-02."
+    },
+    "output": {
+      "reply": "DL 412 \u2014 $342, departing 07:15. B6 623 \u2014 $289, departing 13:30.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "New York",
+            "destination": "Los Angeles",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "Delta",
+              "flight_number": "DL 412",
+              "depart_time": "07:15",
+              "arrive_time": "10:42",
+              "price_usd": 342
+            },
+            {
+              "airline": "JetBlue",
+              "flight_number": "B6 623",
+              "depart_time": "13:30",
+              "arrive_time": "16:55",
+              "price_usd": 289
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-018",
+    "input": {
+      "message": "Find me a flight from New York to Los Angeles on 2027-05-02."
+    },
+    "output": {
+      "reply": "Here are your options: JetBlue B6 623 departs 13:30 for $314.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "New York",
+            "destination": "Los Angeles",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "Delta",
+              "flight_number": "DL 412",
+              "depart_time": "07:15",
+              "arrive_time": "10:42",
+              "price_usd": 342
+            },
+            {
+              "airline": "JetBlue",
+              "flight_number": "B6 623",
+              "depart_time": "13:30",
+              "arrive_time": "16:55",
+              "price_usd": 289
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "wrong_price"
+  },
+  {
+    "id": "ground-ok-019",
+    "input": {
+      "message": "Find me a flight from New York to Chicago on 2027-05-02."
+    },
+    "output": {
+      "reply": "I found 2 options. United UA 512 leaves at 06:50 ($178). American AA 340 leaves at 17:10 ($195).",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "New York",
+            "destination": "Chicago",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "United",
+              "flight_number": "UA 512",
+              "depart_time": "06:50",
+              "arrive_time": "08:25",
+              "price_usd": 178
+            },
+            {
+              "airline": "American",
+              "flight_number": "AA 340",
+              "depart_time": "17:10",
+              "arrive_time": "18:48",
+              "price_usd": 195
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-019",
+    "input": {
+      "message": "Find me a flight from New York to Chicago on 2027-05-02."
+    },
+    "output": {
+      "reply": "American AA 340 departs at 19:10 for $195.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "New York",
+            "destination": "Chicago",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "United",
+              "flight_number": "UA 512",
+              "depart_time": "06:50",
+              "arrive_time": "08:25",
+              "price_usd": 178
+            },
+            {
+              "airline": "American",
+              "flight_number": "AA 340",
+              "depart_time": "17:10",
+              "arrive_time": "18:48",
+              "price_usd": 195
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "wrong_time"
+  },
+  {
+    "id": "ground-ok-020",
+    "input": {
+      "message": "Find me a flight from San Francisco to Los Angeles on 2027-05-02."
+    },
+    "output": {
+      "reply": "I found 1 option. United UA 690 leaves at 09:00 ($98).",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "San Francisco",
+            "destination": "Los Angeles",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "United",
+              "flight_number": "UA 690",
+              "depart_time": "09:00",
+              "arrive_time": "10:25",
+              "price_usd": 98
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-020",
+    "input": {
+      "message": "Find me a flight from San Francisco to Los Angeles on 2027-05-02."
+    },
+    "output": {
+      "reply": "United UA 690 departs 09:00 for $98, and UA 4295 departs later the same day for $128.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "San Francisco",
+            "destination": "Los Angeles",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "United",
+              "flight_number": "UA 690",
+              "depart_time": "09:00",
+              "arrive_time": "10:25",
+              "price_usd": 98
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "invented_flight"
+  },
+  {
+    "id": "ground-ok-021",
+    "input": {
+      "message": "Find me a flight from Miami to New York on 2027-05-02."
+    },
+    "output": {
+      "reply": "AA 2210 \u2014 $226, departing 11:05.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Miami",
+            "destination": "New York",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "American",
+              "flight_number": "AA 2210",
+              "depart_time": "11:05",
+              "arrive_time": "14:12",
+              "price_usd": 226
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-021",
+    "input": {
+      "message": "Find me a flight from Miami to New York on 2027-05-02."
+    },
+    "output": {
+      "reply": "American AA 2210 departs 11:05 for $226, and AA 4288 departs later the same day for $256.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Miami",
+            "destination": "New York",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "American",
+              "flight_number": "AA 2210",
+              "depart_time": "11:05",
+              "arrive_time": "14:12",
+              "price_usd": 226
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "invented_flight"
+  },
+  {
+    "id": "ground-ok-022",
+    "input": {
+      "message": "Find me a flight from Paris to New York on 2027-05-02."
+    },
+    "output": {
+      "reply": "The earliest departure is Air France AF 22 at 10:30, priced at $715.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Paris",
+            "destination": "New York",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "Air France",
+              "flight_number": "AF 22",
+              "depart_time": "10:30",
+              "arrive_time": "12:55",
+              "price_usd": 715
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-022",
+    "input": {
+      "message": "Find me a flight from Paris to New York on 2027-05-02."
+    },
+    "output": {
+      "reply": "Air France AF 22 departs 10:30 for $715. There are 12 seats left at this fare.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Paris",
+            "destination": "New York",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "Air France",
+              "flight_number": "AF 22",
+              "depart_time": "10:30",
+              "arrive_time": "12:55",
+              "price_usd": 715
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "absent_attribute"
+  },
+  {
+    "id": "ground-ok-023",
+    "input": {
+      "message": "Find me a flight from Paris to London on 2027-05-17."
+    },
+    "output": {
+      "reply": "AF 1681 \u2014 $156, departing 14:15.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Paris",
+            "destination": "London",
+            "date": "2027-05-17"
+          },
+          "output": [
+            {
+              "airline": "Air France",
+              "flight_number": "AF 1681",
+              "depart_time": "14:15",
+              "arrive_time": "14:35",
+              "price_usd": 156
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-023",
+    "input": {
+      "message": "Find me a flight from Paris to London on 2027-05-17."
+    },
+    "output": {
+      "reply": "Air France AF 1681 departs 14:15 for $156. There are 12 seats left at this fare.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Paris",
+            "destination": "London",
+            "date": "2027-05-17"
+          },
+          "output": [
+            {
+              "airline": "Air France",
+              "flight_number": "AF 1681",
+              "depart_time": "14:15",
+              "arrive_time": "14:35",
+              "price_usd": 156
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "absent_attribute"
+  },
+  {
+    "id": "ground-ok-024",
+    "input": {
+      "message": "Find me a flight from Chicago to Denver on 2027-05-02."
+    },
+    "output": {
+      "reply": "Here are your options: United UA 2044 departs 10:10 for $148. United UA 2044 is the cheapest at $148.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Chicago",
+            "destination": "Denver",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "United",
+              "flight_number": "UA 2044",
+              "depart_time": "10:10",
+              "arrive_time": "11:45",
+              "price_usd": 148
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-024",
+    "input": {
+      "message": "Find me a flight from Chicago to Denver on 2027-05-02."
+    },
+    "output": {
+      "reply": "Here are your options: United UA 2044 departs 10:10 for $173.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "Chicago",
+            "destination": "Denver",
+            "date": "2027-05-02"
+          },
+          "output": [
+            {
+              "airline": "United",
+              "flight_number": "UA 2044",
+              "depart_time": "10:10",
+              "arrive_time": "11:45",
+              "price_usd": 148
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "wrong_price"
+  },
+  {
+    "id": "ground-ok-025",
+    "input": {
+      "message": "Find me a flight from New York to Paris on 2026-09-15."
+    },
+    "output": {
+      "reply": "The earliest departure is Air France AF 23 at 18:40, priced at $702. There is 1 later option as well.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "New York",
+            "destination": "Paris",
+            "date": "2026-09-15"
+          },
+          "output": [
+            {
+              "airline": "Air France",
+              "flight_number": "AF 23",
+              "depart_time": "18:40",
+              "arrive_time": "08:05",
+              "price_usd": 702
+            },
+            {
+              "airline": "Delta",
+              "flight_number": "DL 263",
+              "depart_time": "21:55",
+              "arrive_time": "11:15",
+              "price_usd": 668
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-025",
+    "input": {
+      "message": "Find me a flight from New York to Paris on 2026-09-15."
+    },
+    "output": {
+      "reply": "Delta DL 263 departs at 18:55 for $668.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "New York",
+            "destination": "Paris",
+            "date": "2026-09-15"
+          },
+          "output": [
+            {
+              "airline": "Air France",
+              "flight_number": "AF 23",
+              "depart_time": "18:40",
+              "arrive_time": "08:05",
+              "price_usd": 702
+            },
+            {
+              "airline": "Delta",
+              "flight_number": "DL 263",
+              "depart_time": "21:55",
+              "arrive_time": "11:15",
+              "price_usd": 668
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "wrong_time"
+  },
+  {
+    "id": "ground-ok-026",
+    "input": {
+      "message": "Find me a flight from New York to Paris on 2026-10-01."
+    },
+    "output": {
+      "reply": "Here are your options: Air France AF 23 departs 18:40 for $702. Air France AF 23 is the cheapest at $702.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "New York",
+            "destination": "Paris",
+            "date": "2026-10-01"
+          },
+          "output": [
+            {
+              "airline": "Air France",
+              "flight_number": "AF 23",
+              "depart_time": "18:40",
+              "arrive_time": "08:05",
+              "price_usd": 702
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "ground-bad-026",
+    "input": {
+      "message": "Find me a flight from New York to Paris on 2026-10-01."
+    },
+    "output": {
+      "reply": "Air France AF 23 departs 18:40 for $702, and AF 4533 departs later the same day for $732.",
+      "tool_calls": [
+        {
+          "name": "search_flights",
+          "input": {
+            "origin": "New York",
+            "destination": "Paris",
+            "date": "2026-10-01"
+          },
+          "output": [
+            {
+              "airline": "Air France",
+              "flight_number": "AF 23",
+              "depart_time": "18:40",
+              "arrive_time": "08:05",
+              "price_usd": 702
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "invented_flight"
+  },
+  {
+    "id": "hotel-ok-000",
+    "input": {
+      "message": "I need a hotel in Chicago from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "Lakefront Tower has the highest rating at 4.5, and runs $258 a night.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "Chicago",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "The Wrigleyville Hotel",
+              "city": "Chicago",
+              "price_per_night_usd": 205,
+              "rating": 4.1
+            },
+            {
+              "name": "Lakefront Tower",
+              "city": "Chicago",
+              "price_per_night_usd": 258,
+              "rating": 4.5
+            },
+            {
+              "name": "The Loop Central",
+              "city": "Chicago",
+              "price_per_night_usd": 172,
+              "rating": 3.9
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "hotel-bad-000",
+    "input": {
+      "message": "I need a hotel in Chicago from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "Lakefront Tower is available at $313 per night, rated 4.5.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "Chicago",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "The Wrigleyville Hotel",
+              "city": "Chicago",
+              "price_per_night_usd": 205,
+              "rating": 4.1
+            },
+            {
+              "name": "Lakefront Tower",
+              "city": "Chicago",
+              "price_per_night_usd": 258,
+              "rating": 4.5
+            },
+            {
+              "name": "The Loop Central",
+              "city": "Chicago",
+              "price_per_night_usd": 172,
+              "rating": 3.9
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "hotel_wrong_price"
+  },
+  {
+    "id": "hotel-ok-001",
+    "input": {
+      "message": "I need a hotel in London from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "The Kensington Arms at $312/night, rated 4.4. Thames View Lodge at $178/night, rated 3.7.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "London",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "The Kensington Arms",
+              "city": "London",
+              "price_per_night_usd": 312,
+              "rating": 4.4
+            },
+            {
+              "name": "Thames View Lodge",
+              "city": "London",
+              "price_per_night_usd": 178,
+              "rating": 3.7
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "hotel-bad-001",
+    "input": {
+      "message": "I need a hotel in London from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "The Kensington Arms is rated 5.0, at $312 per night.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "London",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "The Kensington Arms",
+              "city": "London",
+              "price_per_night_usd": 312,
+              "rating": 4.4
+            },
+            {
+              "name": "Thames View Lodge",
+              "city": "London",
+              "price_per_night_usd": 178,
+              "rating": 3.7
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "hotel_wrong_rating"
+  },
+  {
+    "id": "hotel-ok-002",
+    "input": {
+      "message": "I need a hotel in Miami from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "Ocean Drive Resort has the highest rating at 4.5, and runs $315 a night.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "Miami",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "Ocean Drive Resort",
+              "city": "Miami",
+              "price_per_night_usd": 315,
+              "rating": 4.5
+            },
+            {
+              "name": "Biscayne Bay Hotel",
+              "city": "Miami",
+              "price_per_night_usd": 189,
+              "rating": 3.8
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "hotel-bad-002",
+    "input": {
+      "message": "I need a hotel in Miami from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "Ocean Drive Resort is $315/night. The Grand Meridian Suites is also available at $355/night.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "Miami",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "Ocean Drive Resort",
+              "city": "Miami",
+              "price_per_night_usd": 315,
+              "rating": 4.5
+            },
+            {
+              "name": "Biscayne Bay Hotel",
+              "city": "Miami",
+              "price_per_night_usd": 189,
+              "rating": 3.8
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "invented_hotel"
+  },
+  {
+    "id": "hotel-ok-003",
+    "input": {
+      "message": "I need a hotel in New York from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "Hudson Yards Suites has the highest rating at 4.6, and runs $342 a night.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "New York",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "The Midtown Grand",
+              "city": "New York",
+              "price_per_night_usd": 289,
+              "rating": 4.4
+            },
+            {
+              "name": "Hudson Yards Suites",
+              "city": "New York",
+              "price_per_night_usd": 342,
+              "rating": 4.6
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "hotel-bad-003",
+    "input": {
+      "message": "I need a hotel in New York from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "The Midtown Grand is available at $359 per night, rated 4.4.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "New York",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "The Midtown Grand",
+              "city": "New York",
+              "price_per_night_usd": 289,
+              "rating": 4.4
+            },
+            {
+              "name": "Hudson Yards Suites",
+              "city": "New York",
+              "price_per_night_usd": 342,
+              "rating": 4.6
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "hotel_wrong_price"
+  },
+  {
+    "id": "hotel-ok-004",
+    "input": {
+      "message": "I need a hotel in Paris from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "Hotel Lumi\u00e8re has the highest rating at 4.7, and runs $385 a night.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "Paris",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "Hotel Lumi\u00e8re",
+              "city": "Paris",
+              "price_per_night_usd": 385,
+              "rating": 4.7
+            },
+            {
+              "name": "Rive Gauche H\u00f4tel",
+              "city": "Paris",
+              "price_per_night_usd": 245,
+              "rating": 4.0
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "hotel-bad-004",
+    "input": {
+      "message": "I need a hotel in Paris from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "Rive Gauche H\u00f4tel is rated 5.0, at $245 per night.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "Paris",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "Hotel Lumi\u00e8re",
+              "city": "Paris",
+              "price_per_night_usd": 385,
+              "rating": 4.7
+            },
+            {
+              "name": "Rive Gauche H\u00f4tel",
+              "city": "Paris",
+              "price_per_night_usd": 245,
+              "rating": 4.0
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "hotel_wrong_rating"
+  },
+  {
+    "id": "hotel-ok-005",
+    "input": {
+      "message": "I need a hotel in San Francisco from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "Union Square Regency at $334/night, rated 4.5. Mission District Suites at $212/night, rated 4.2.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "San Francisco",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "Union Square Regency",
+              "city": "San Francisco",
+              "price_per_night_usd": 334,
+              "rating": 4.5
+            },
+            {
+              "name": "Mission District Suites",
+              "city": "San Francisco",
+              "price_per_night_usd": 212,
+              "rating": 4.2
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "hotel-bad-005",
+    "input": {
+      "message": "I need a hotel in San Francisco from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "Union Square Regency is $334/night. The Grand Meridian Suites is also available at $374/night.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "San Francisco",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "Union Square Regency",
+              "city": "San Francisco",
+              "price_per_night_usd": 334,
+              "rating": 4.5
+            },
+            {
+              "name": "Mission District Suites",
+              "city": "San Francisco",
+              "price_per_night_usd": 212,
+              "rating": 4.2
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "invented_hotel"
+  },
+  {
+    "id": "hotel-ok-006",
+    "input": {
+      "message": "I need a hotel in Chicago from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "The Wrigleyville Hotel at $205/night, rated 4.1. Lakefront Tower at $258/night, rated 4.5. The Loop Central at $172/night, rated 3.9.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "Chicago",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "The Wrigleyville Hotel",
+              "city": "Chicago",
+              "price_per_night_usd": 205,
+              "rating": 4.1
+            },
+            {
+              "name": "Lakefront Tower",
+              "city": "Chicago",
+              "price_per_night_usd": 258,
+              "rating": 4.5
+            },
+            {
+              "name": "The Loop Central",
+              "city": "Chicago",
+              "price_per_night_usd": 172,
+              "rating": 3.9
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "hotel-bad-006",
+    "input": {
+      "message": "I need a hotel in Chicago from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "The Wrigleyville Hotel is available at $145 per night, rated 4.1.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "Chicago",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "The Wrigleyville Hotel",
+              "city": "Chicago",
+              "price_per_night_usd": 205,
+              "rating": 4.1
+            },
+            {
+              "name": "Lakefront Tower",
+              "city": "Chicago",
+              "price_per_night_usd": 258,
+              "rating": 4.5
+            },
+            {
+              "name": "The Loop Central",
+              "city": "Chicago",
+              "price_per_night_usd": 172,
+              "rating": 3.9
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "hotel_wrong_price"
+  },
+  {
+    "id": "hotel-ok-007",
+    "input": {
+      "message": "I need a hotel in London from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "The Kensington Arms has the highest rating at 4.4, and runs $312 a night.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "London",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "The Kensington Arms",
+              "city": "London",
+              "price_per_night_usd": 312,
+              "rating": 4.4
+            },
+            {
+              "name": "Thames View Lodge",
+              "city": "London",
+              "price_per_night_usd": 178,
+              "rating": 3.7
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "hotel-bad-007",
+    "input": {
+      "message": "I need a hotel in London from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "Thames View Lodge is rated 2.5, at $178 per night.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "London",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "The Kensington Arms",
+              "city": "London",
+              "price_per_night_usd": 312,
+              "rating": 4.4
+            },
+            {
+              "name": "Thames View Lodge",
+              "city": "London",
+              "price_per_night_usd": 178,
+              "rating": 3.7
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "hotel_wrong_rating"
+  },
+  {
+    "id": "hotel-ok-008",
+    "input": {
+      "message": "I need a hotel in Miami from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "Ocean Drive Resort has the highest rating at 4.5, and runs $315 a night.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "Miami",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "Ocean Drive Resort",
+              "city": "Miami",
+              "price_per_night_usd": 315,
+              "rating": 4.5
+            },
+            {
+              "name": "Biscayne Bay Hotel",
+              "city": "Miami",
+              "price_per_night_usd": 189,
+              "rating": 3.8
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "hotel-bad-008",
+    "input": {
+      "message": "I need a hotel in Miami from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "Ocean Drive Resort is $315/night. The Grand Meridian Suites is also available at $355/night.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "Miami",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "Ocean Drive Resort",
+              "city": "Miami",
+              "price_per_night_usd": 315,
+              "rating": 4.5
+            },
+            {
+              "name": "Biscayne Bay Hotel",
+              "city": "Miami",
+              "price_per_night_usd": 189,
+              "rating": 3.8
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "invented_hotel"
+  },
+  {
+    "id": "hotel-ok-009",
+    "input": {
+      "message": "I need a hotel in New York from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "Hudson Yards Suites has the highest rating at 4.6, and runs $342 a night.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "New York",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "The Midtown Grand",
+              "city": "New York",
+              "price_per_night_usd": 289,
+              "rating": 4.4
+            },
+            {
+              "name": "Hudson Yards Suites",
+              "city": "New York",
+              "price_per_night_usd": 342,
+              "rating": 4.6
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "hotel-bad-009",
+    "input": {
+      "message": "I need a hotel in New York from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "The Midtown Grand is available at $229 per night, rated 4.4.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "New York",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "The Midtown Grand",
+              "city": "New York",
+              "price_per_night_usd": 289,
+              "rating": 4.4
+            },
+            {
+              "name": "Hudson Yards Suites",
+              "city": "New York",
+              "price_per_night_usd": 342,
+              "rating": 4.6
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "hotel_wrong_price"
+  },
+  {
+    "id": "hotel-ok-010",
+    "input": {
+      "message": "I need a hotel in Paris from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "Hotel Lumi\u00e8re has the highest rating at 4.7, and runs $385 a night.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "Paris",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "Hotel Lumi\u00e8re",
+              "city": "Paris",
+              "price_per_night_usd": 385,
+              "rating": 4.7
+            },
+            {
+              "name": "Rive Gauche H\u00f4tel",
+              "city": "Paris",
+              "price_per_night_usd": 245,
+              "rating": 4.0
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "hotel-bad-010",
+    "input": {
+      "message": "I need a hotel in Paris from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "Rive Gauche H\u00f4tel is rated 5.0, at $245 per night.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "Paris",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "Hotel Lumi\u00e8re",
+              "city": "Paris",
+              "price_per_night_usd": 385,
+              "rating": 4.7
+            },
+            {
+              "name": "Rive Gauche H\u00f4tel",
+              "city": "Paris",
+              "price_per_night_usd": 245,
+              "rating": 4.0
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "hotel_wrong_rating"
+  },
+  {
+    "id": "hotel-ok-011",
+    "input": {
+      "message": "I need a hotel in San Francisco from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "Union Square Regency has the highest rating at 4.5, and runs $334 a night.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "San Francisco",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "Union Square Regency",
+              "city": "San Francisco",
+              "price_per_night_usd": 334,
+              "rating": 4.5
+            },
+            {
+              "name": "Mission District Suites",
+              "city": "San Francisco",
+              "price_per_night_usd": 212,
+              "rating": 4.2
+            }
+          ]
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "hotel-bad-011",
+    "input": {
+      "message": "I need a hotel in San Francisco from 2026-10-05 to 2026-10-09."
+    },
+    "output": {
+      "reply": "Union Square Regency is $334/night. The Grand Meridian Suites is also available at $374/night.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "city": "San Francisco",
+            "check_in": "2026-10-05",
+            "check_out": "2026-10-09"
+          },
+          "output": [
+            {
+              "name": "Union Square Regency",
+              "city": "San Francisco",
+              "price_per_night_usd": 334,
+              "rating": 4.5
+            },
+            {
+              "name": "Mission District Suites",
+              "city": "San Francisco",
+              "price_per_night_usd": 212,
+              "rating": 4.2
+            }
+          ]
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "invented_hotel"
+  },
+  {
+    "id": "weather-ok-000",
+    "input": {
+      "message": "What's the weather like in Chicago on 2026-10-20?"
+    },
+    "output": {
+      "reply": "Expect sunny in Chicago, topping out around 62F and dipping to 48F overnight.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "Chicago",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "Chicago",
+            "date": "2026-10-20",
+            "condition": "Sunny",
+            "high_f": 62,
+            "low_f": 48
+          }
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "weather-bad-000",
+    "input": {
+      "message": "What's the weather like in Chicago on 2026-10-20?"
+    },
+    "output": {
+      "reply": "Chicago on 2026-10-20: sunny, high 51F, low 48F.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "Chicago",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "Chicago",
+            "date": "2026-10-20",
+            "condition": "Sunny",
+            "high_f": 62,
+            "low_f": 48
+          }
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "weather_wrong_temp"
+  },
+  {
+    "id": "weather-ok-001",
+    "input": {
+      "message": "What's the weather like in Los Angeles on 2026-10-20?"
+    },
+    "output": {
+      "reply": "Los Angeles on 2026-10-20: hazy, high 78F, low 62F.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "Los Angeles",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "Los Angeles",
+            "date": "2026-10-20",
+            "condition": "Hazy",
+            "high_f": 78,
+            "low_f": 62
+          }
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "weather-bad-001",
+    "input": {
+      "message": "What's the weather like in Los Angeles on 2026-10-20?"
+    },
+    "output": {
+      "reply": "Los Angeles on 2026-10-20: hail, high 78F, low 62F.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "Los Angeles",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "Los Angeles",
+            "date": "2026-10-20",
+            "condition": "Hazy",
+            "high_f": 78,
+            "low_f": 62
+          }
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "weather_wrong_condition"
+  },
+  {
+    "id": "weather-ok-002",
+    "input": {
+      "message": "What's the weather like in Miami on 2026-10-20?"
+    },
+    "output": {
+      "reply": "Expect thunderstorms in Miami, topping out around 86F and dipping to 75F overnight.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "Miami",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "Miami",
+            "date": "2026-10-20",
+            "condition": "Thunderstorms",
+            "high_f": 86,
+            "low_f": 75
+          }
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "weather-bad-002",
+    "input": {
+      "message": "What's the weather like in Miami on 2026-10-20?"
+    },
+    "output": {
+      "reply": "Miami on 2026-10-20: thunderstorms, high 99F, low 75F.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "Miami",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "Miami",
+            "date": "2026-10-20",
+            "condition": "Thunderstorms",
+            "high_f": 86,
+            "low_f": 75
+          }
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "weather_wrong_temp"
+  },
+  {
+    "id": "weather-ok-003",
+    "input": {
+      "message": "What's the weather like in New York on 2026-10-20?"
+    },
+    "output": {
+      "reply": "Expect overcast in New York, topping out around 68F and dipping to 55F overnight.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "New York",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "New York",
+            "date": "2026-10-20",
+            "condition": "Overcast",
+            "high_f": 68,
+            "low_f": 55
+          }
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "weather-bad-003",
+    "input": {
+      "message": "What's the weather like in New York on 2026-10-20?"
+    },
+    "output": {
+      "reply": "New York on 2026-10-20: snow, high 68F, low 55F.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "New York",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "New York",
+            "date": "2026-10-20",
+            "condition": "Overcast",
+            "high_f": 68,
+            "low_f": 55
+          }
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "weather_wrong_condition"
+  },
+  {
+    "id": "weather-ok-004",
+    "input": {
+      "message": "What's the weather like in Paris on 2026-10-20?"
+    },
+    "output": {
+      "reply": "Expect sunny in Paris, topping out around 63F and dipping to 51F overnight.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "Paris",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "Paris",
+            "date": "2026-10-20",
+            "condition": "Sunny",
+            "high_f": 63,
+            "low_f": 51
+          }
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "weather-bad-004",
+    "input": {
+      "message": "What's the weather like in Paris on 2026-10-20?"
+    },
+    "output": {
+      "reply": "Paris on 2026-10-20: sunny, high 52F, low 51F.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "Paris",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "Paris",
+            "date": "2026-10-20",
+            "condition": "Sunny",
+            "high_f": 63,
+            "low_f": 51
+          }
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "weather_wrong_temp"
+  },
+  {
+    "id": "weather-ok-005",
+    "input": {
+      "message": "What's the weather like in San Francisco on 2026-10-20?"
+    },
+    "output": {
+      "reply": "San Francisco on 2026-10-20: windy, high 64F, low 53F.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "San Francisco",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "San Francisco",
+            "date": "2026-10-20",
+            "condition": "Windy",
+            "high_f": 64,
+            "low_f": 53
+          }
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "weather-bad-005",
+    "input": {
+      "message": "What's the weather like in San Francisco on 2026-10-20?"
+    },
+    "output": {
+      "reply": "San Francisco on 2026-10-20: dense fog, high 64F, low 53F.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "San Francisco",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "San Francisco",
+            "date": "2026-10-20",
+            "condition": "Windy",
+            "high_f": 64,
+            "low_f": 53
+          }
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "weather_wrong_condition"
+  },
+  {
+    "id": "weather-ok-006",
+    "input": {
+      "message": "What's the weather like in Tokyo on 2026-10-20?"
+    },
+    "output": {
+      "reply": "Tokyo on 2026-10-20: humid, high 72F, low 60F.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "Tokyo",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "Tokyo",
+            "date": "2026-10-20",
+            "condition": "Humid",
+            "high_f": 72,
+            "low_f": 60
+          }
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "weather-bad-006",
+    "input": {
+      "message": "What's the weather like in Tokyo on 2026-10-20?"
+    },
+    "output": {
+      "reply": "Tokyo on 2026-10-20: humid, high 61F, low 60F.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "Tokyo",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "Tokyo",
+            "date": "2026-10-20",
+            "condition": "Humid",
+            "high_f": 72,
+            "low_f": 60
+          }
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "weather_wrong_temp"
+  },
+  {
+    "id": "weather-ok-007",
+    "input": {
+      "message": "What's the weather like in Chicago on 2026-10-20?"
+    },
+    "output": {
+      "reply": "Chicago on 2026-10-20: sunny, high 62F, low 48F.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "Chicago",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "Chicago",
+            "date": "2026-10-20",
+            "condition": "Sunny",
+            "high_f": 62,
+            "low_f": 48
+          }
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "weather-bad-007",
+    "input": {
+      "message": "What's the weather like in Chicago on 2026-10-20?"
+    },
+    "output": {
+      "reply": "Chicago on 2026-10-20: blizzard, high 62F, low 48F.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "Chicago",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "Chicago",
+            "date": "2026-10-20",
+            "condition": "Sunny",
+            "high_f": 62,
+            "low_f": 48
+          }
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "weather_wrong_condition"
+  },
+  {
+    "id": "weather-ok-008",
+    "input": {
+      "message": "What's the weather like in Los Angeles on 2026-10-20?"
+    },
+    "output": {
+      "reply": "Expect hazy in Los Angeles, topping out around 78F and dipping to 62F overnight.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "Los Angeles",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "Los Angeles",
+            "date": "2026-10-20",
+            "condition": "Hazy",
+            "high_f": 78,
+            "low_f": 62
+          }
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "weather-bad-008",
+    "input": {
+      "message": "What's the weather like in Los Angeles on 2026-10-20?"
+    },
+    "output": {
+      "reply": "Los Angeles on 2026-10-20: hazy, high 91F, low 62F.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "Los Angeles",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "Los Angeles",
+            "date": "2026-10-20",
+            "condition": "Hazy",
+            "high_f": 78,
+            "low_f": 62
+          }
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "weather_wrong_temp"
+  },
+  {
+    "id": "weather-ok-009",
+    "input": {
+      "message": "What's the weather like in Miami on 2026-10-20?"
+    },
+    "output": {
+      "reply": "Expect thunderstorms in Miami, topping out around 86F and dipping to 75F overnight.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "Miami",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "Miami",
+            "date": "2026-10-20",
+            "condition": "Thunderstorms",
+            "high_f": 86,
+            "low_f": 75
+          }
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "weather-bad-009",
+    "input": {
+      "message": "What's the weather like in Miami on 2026-10-20?"
+    },
+    "output": {
+      "reply": "Miami on 2026-10-20: dense fog, high 86F, low 75F.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "Miami",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "Miami",
+            "date": "2026-10-20",
+            "condition": "Thunderstorms",
+            "high_f": 86,
+            "low_f": 75
+          }
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "weather_wrong_condition"
+  },
+  {
+    "id": "weather-ok-010",
+    "input": {
+      "message": "What's the weather like in New York on 2026-10-20?"
+    },
+    "output": {
+      "reply": "Expect overcast in New York, topping out around 68F and dipping to 55F overnight.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "New York",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "New York",
+            "date": "2026-10-20",
+            "condition": "Overcast",
+            "high_f": 68,
+            "low_f": 55
+          }
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "weather-bad-010",
+    "input": {
+      "message": "What's the weather like in New York on 2026-10-20?"
+    },
+    "output": {
+      "reply": "New York on 2026-10-20: overcast, high 57F, low 55F.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "New York",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "New York",
+            "date": "2026-10-20",
+            "condition": "Overcast",
+            "high_f": 68,
+            "low_f": 55
+          }
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "weather_wrong_temp"
+  },
+  {
+    "id": "weather-ok-011",
+    "input": {
+      "message": "What's the weather like in Paris on 2026-10-20?"
+    },
+    "output": {
+      "reply": "Expect sunny in Paris, topping out around 63F and dipping to 51F overnight.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "Paris",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "Paris",
+            "date": "2026-10-20",
+            "condition": "Sunny",
+            "high_f": 63,
+            "low_f": 51
+          }
+        }
+      ]
+    },
+    "label": "grounded",
+    "corruption": "faithful"
+  },
+  {
+    "id": "weather-bad-011",
+    "input": {
+      "message": "What's the weather like in Paris on 2026-10-20?"
+    },
+    "output": {
+      "reply": "Paris on 2026-10-20: hail, high 63F, low 51F.",
+      "tool_calls": [
+        {
+          "name": "get_weather",
+          "input": {
+            "city": "Paris",
+            "date": "2026-10-20"
+          },
+          "output": {
+            "city": "Paris",
+            "date": "2026-10-20",
+            "condition": "Sunny",
+            "high_f": 63,
+            "low_f": 51
+          }
+        }
+      ]
+    },
+    "label": "ungrounded",
+    "corruption": "weather_wrong_condition"
+  },
+  {
+    "id": "graceful-ok-000",
+    "input": {
+      "message": "I need a hotel in Austin from November 3 to November 6, 2026."
+    },
+    "output": {
+      "reply": "There are no hotels available in Austin for those dates. Would you like me to check a different date range, or would San Antonio or Dallas work?",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "I need a hotel in Austin from November 3 to November 6, 2026."
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "graceful",
+    "corruption": "good"
+  },
+  {
+    "id": "graceful-ok-001",
+    "input": {
+      "message": "Are there any flights from Miami to Tokyo on November 12, 2026?"
+    },
+    "output": {
+      "reply": "There are no flights from Miami to Tokyo on November 12, 2026. I can check nearby dates, or look at a connection through Los Angeles if that helps.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "Are there any flights from Miami to Tokyo on November 12, 2026?"
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "graceful",
+    "corruption": "good"
+  },
+  {
+    "id": "graceful-ok-002",
+    "input": {
+      "message": "What's the exchange rate between dollars and yen right now?"
+    },
+    "output": {
+      "reply": "I can't help with currency exchange rates, but I can search flights, find hotels, check the weather, and build you a day-by-day itinerary.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "What's the exchange rate between dollars and yen right now?"
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "graceful",
+    "corruption": "good"
+  },
+  {
+    "id": "graceful-ok-003",
+    "input": {
+      "message": "Can you get me a hotel in Denver for this weekend?"
+    },
+    "output": {
+      "reply": "There's nothing available in Denver for that weekend. Colorado Springs is close by \u2014 shall I look there, or try the following weekend instead?",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "Can you get me a hotel in Denver for this weekend?"
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "graceful",
+    "corruption": "good"
+  },
+  {
+    "id": "graceful-ok-004",
+    "input": {
+      "message": "I booked a flight last month and need a refund."
+    },
+    "output": {
+      "reply": "Refunds aren't something I can process. I can help you plan and price a new trip whenever you're ready.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "I booked a flight last month and need a refund."
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "graceful",
+    "corruption": "good"
+  },
+  {
+    "id": "graceful-ok-005",
+    "input": {
+      "message": "Show me flights from Denver to Miami on August 3, 2026."
+    },
+    "output": {
+      "reply": "No flights run that route on the 3rd. The 2nd and the 5th both have options \u2014 want me to pull those up?",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "Show me flights from Denver to Miami on August 3, 2026."
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "graceful",
+    "corruption": "good"
+  },
+  {
+    "id": "graceful-ok-006",
+    "input": {
+      "message": "What's the weather in London on November 18, 2026?"
+    },
+    "output": {
+      "reply": "I don't have a forecast for London on that date. I can check Paris if you're travelling nearby, or look at another date for London.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "What's the weather in London on November 18, 2026?"
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "graceful",
+    "corruption": "good"
+  },
+  {
+    "id": "graceful-ok-007",
+    "input": {
+      "message": "Do I need a visa to visit Japan as a US citizen?"
+    },
+    "output": {
+      "reply": "Visa requirements aren't something I can advise on. I can help with flights to Japan, hotels once you're there, or a day-by-day itinerary.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "Do I need a visa to visit Japan as a US citizen?"
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "graceful",
+    "corruption": "good"
+  },
+  {
+    "id": "graceful-ok-008",
+    "input": {
+      "message": "Find me a flight from Seattle to Paris on November 12, 2026."
+    },
+    "output": {
+      "reply": "There are no flights from Seattle to Paris on that date. New York to Paris runs that day if you can get to New York, or I can try other dates.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "Find me a flight from Seattle to Paris on November 12, 2026."
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "graceful",
+    "corruption": "good"
+  },
+  {
+    "id": "graceful-ok-009",
+    "input": {
+      "message": "I need a hotel in Tokyo from November 3 to 6, 2026."
+    },
+    "output": {
+      "reply": "There are no hotels available in Tokyo for those dates. Would you like me to look at Osaka, or try a different week in Tokyo?",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "I need a hotel in Tokyo from November 3 to 6, 2026."
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "graceful",
+    "corruption": "good"
+  },
+  {
+    "id": "graceful-ok-010",
+    "input": {
+      "message": "What's the baggage allowance on Delta?"
+    },
+    "output": {
+      "reply": "Baggage policies aren't something I can look up. I can search Delta flights for you, or help with hotels and itineraries for the trip.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "What's the baggage allowance on Delta?"
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "graceful",
+    "corruption": "good"
+  },
+  {
+    "id": "graceful-ok-011",
+    "input": {
+      "message": "Are there flights from Austin to Chicago on November 12, 2026?"
+    },
+    "output": {
+      "reply": "There are no flights from Austin to Chicago on that date. Chicago is served from New York and Denver \u2014 would either of those work as a starting point?",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "Are there flights from Austin to Chicago on November 12, 2026?"
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "graceful",
+    "corruption": "good"
+  },
+  {
+    "id": "graceful-ok-012",
+    "input": {
+      "message": "Can you cancel my reservation and refund my card?"
+    },
+    "output": {
+      "reply": "I can't cancel reservations or process refunds. I can help you plan a new trip \u2014 flights, hotels, weather, or a full itinerary.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "Can you cancel my reservation and refund my card?"
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "graceful",
+    "corruption": "good"
+  },
+  {
+    "id": "graceful-ok-013",
+    "input": {
+      "message": "Find me a hotel in Seattle for November 3 to 6, 2026."
+    },
+    "output": {
+      "reply": "There are no hotels available in Seattle for those dates. San Francisco has availability that week \u2014 shall I look there instead?",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "Find me a hotel in Seattle for November 3 to 6, 2026."
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "graceful",
+    "corruption": "good"
+  },
+  {
+    "id": "graceful-bad-000",
+    "input": {
+      "message": "I need a hotel in Austin from November 3 to November 6, 2026."
+    },
+    "output": {
+      "reply": "I searched for hotels in Austin but no results are currently available in the system. This could mean hotels aren't listed yet, or availability hasn't opened.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "I need a hotel in Austin from November 3 to November 6, 2026."
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "unhelpful",
+    "corruption": "bad"
+  },
+  {
+    "id": "graceful-bad-001",
+    "input": {
+      "message": "Are there any flights from Miami to Tokyo on November 12, 2026?"
+    },
+    "output": {
+      "reply": "The search returned no flights for that route. You may want to try a different booking site or check the airline's website directly.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "Are there any flights from Miami to Tokyo on November 12, 2026?"
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "unhelpful",
+    "corruption": "bad"
+  },
+  {
+    "id": "graceful-bad-002",
+    "input": {
+      "message": "I booked a flight last month and need a refund."
+    },
+    "output": {
+      "reply": "I don't have access to tools for processing refunds. My tools are limited to flights, hotels, weather and itineraries.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "I booked a flight last month and need a refund."
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "unhelpful",
+    "corruption": "bad"
+  },
+  {
+    "id": "graceful-bad-003",
+    "input": {
+      "message": "Can you get me a hotel in Denver for this weekend?"
+    },
+    "output": {
+      "reply": "Unfortunately nothing came back from the database for those dates. It's possible the data hasn't been loaded for that period.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "Can you get me a hotel in Denver for this weekend?"
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "unhelpful",
+    "corruption": "bad"
+  },
+  {
+    "id": "graceful-bad-004",
+    "input": {
+      "message": "Show me flights from Denver to Miami on August 3, 2026."
+    },
+    "output": {
+      "reply": "No results found. Could you provide different dates?",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "Show me flights from Denver to Miami on August 3, 2026."
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "unhelpful",
+    "corruption": "bad"
+  },
+  {
+    "id": "graceful-bad-005",
+    "input": {
+      "message": "What's the weather in London on November 18, 2026?"
+    },
+    "output": {
+      "reply": "I'm not finding anything. This might be a temporary issue with the search \u2014 please try again later.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "What's the weather in London on November 18, 2026?"
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "unhelpful",
+    "corruption": "bad"
+  },
+  {
+    "id": "graceful-bad-006",
+    "input": {
+      "message": "What's the exchange rate between dollars and yen right now?"
+    },
+    "output": {
+      "reply": "I don't have access to real-time exchange rate data. For current rates I'd recommend checking your bank's website or a currency converter.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "What's the exchange rate between dollars and yen right now?"
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "unhelpful",
+    "corruption": "bad"
+  },
+  {
+    "id": "graceful-bad-007",
+    "input": {
+      "message": "Find me a flight from Seattle to Paris on November 12, 2026."
+    },
+    "output": {
+      "reply": "My search didn't return any results for that route. The route may not be in our records.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "Find me a flight from Seattle to Paris on November 12, 2026."
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "unhelpful",
+    "corruption": "bad"
+  },
+  {
+    "id": "graceful-bad-008",
+    "input": {
+      "message": "I need a hotel in Tokyo from November 3 to 6, 2026."
+    },
+    "output": {
+      "reply": "No hotels came back for Tokyo. Would you like to try something else?",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "I need a hotel in Tokyo from November 3 to 6, 2026."
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "unhelpful",
+    "corruption": "bad"
+  },
+  {
+    "id": "graceful-bad-009",
+    "input": {
+      "message": "Do I need a visa to visit Japan as a US citizen?"
+    },
+    "output": {
+      "reply": "That's outside what my tools cover. Please consult the embassy website for visa requirements.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "Do I need a visa to visit Japan as a US citizen?"
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "unhelpful",
+    "corruption": "bad"
+  },
+  {
+    "id": "graceful-bad-010",
+    "input": {
+      "message": "What's the baggage allowance on Delta?"
+    },
+    "output": {
+      "reply": "I don't have a tool for baggage policies. Check Delta's website for the current allowance.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "What's the baggage allowance on Delta?"
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "unhelpful",
+    "corruption": "bad"
+  },
+  {
+    "id": "graceful-bad-011",
+    "input": {
+      "message": "Are there flights from Austin to Chicago on November 12, 2026?"
+    },
+    "output": {
+      "reply": "The flight search came back empty. It's possible that route isn't loaded in the system yet.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "Are there flights from Austin to Chicago on November 12, 2026?"
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "unhelpful",
+    "corruption": "bad"
+  },
+  {
+    "id": "graceful-bad-012",
+    "input": {
+      "message": "Can you cancel my reservation and refund my card?"
+    },
+    "output": {
+      "reply": "Reservation management isn't available through my current toolset.",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "Can you cancel my reservation and refund my card?"
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "unhelpful",
+    "corruption": "bad"
+  },
+  {
+    "id": "graceful-bad-013",
+    "input": {
+      "message": "Find me a hotel in Seattle for November 3 to 6, 2026."
+    },
+    "output": {
+      "reply": "Nothing found for Seattle. Can you give me different dates or a different city?",
+      "tool_calls": [
+        {
+          "name": "search_hotels",
+          "input": {
+            "query": "Find me a hotel in Seattle for November 3 to 6, 2026."
+          },
+          "output": []
+        }
+      ]
+    },
+    "label": "unhelpful",
+    "corruption": "bad"
+  }
+]

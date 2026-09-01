@@ -4,7 +4,7 @@ Usage:
     python scripts/generate_traffic.py [base_url]
 
 The API server must be running first:
-    uvicorn agent.api:app
+    uv run fastapi dev backend/main.py
 """
 
 import os

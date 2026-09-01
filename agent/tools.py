@@ -1,4 +1,5 @@
 import json
+from datetime import date as date_cls
 
 from agent.config import DATA_DIR
 
@@ -10,8 +11,22 @@ with open(DATA_DIR / "weather.json") as f:
     WEATHER = json.load(f)
 
 
+def _normalize_date(value: str, field: str) -> str:
+    """Return `value` as an ISO date string, or raise if it isn't one.
+
+    The fixtures store dates as ISO strings and compare them lexicographically,
+    which is only correct for well-formed YYYY-MM-DD input. Anything else is a
+    caller error and should surface as such rather than silently matching
+    nothing.
+    """
+    try:
+        return date_cls.fromisoformat(value.strip()).isoformat()
+    except (AttributeError, ValueError):
+        raise ValueError(f"{field} must be a YYYY-MM-DD date, got {value!r}") from None
+
+
 def search_flights(origin: str, destination: str, date: str) -> list:
-    cities = {origin.lower(), destination.lower()}
+    travel_date = _normalize_date(date, "date")
     return [
         {
             "airline": f["airline"],
@@ -21,7 +36,9 @@ def search_flights(origin: str, destination: str, date: str) -> list:
             "price_usd": f["price_usd"],
         }
         for f in FLIGHTS
-        if {f["origin"].lower(), f["destination"].lower()} == cities
+        if f["origin"].lower() == origin.lower()
+        and f["destination"].lower() == destination.lower()
+        and f["available_from"] <= travel_date <= f["available_to"]
     ]
 
 
@@ -50,14 +67,14 @@ def get_weather(city: str, date: str) -> dict:
         "city": city,
         "date": date,
         "condition": entry["conditions"][seed % len(entry["conditions"])],
-        "high_f": round(high * 5 / 9 + 32),
-        "low_f": round(low * 5 / 9 + 32),
+        "high_f": high,
+        "low_f": low,
     }
 
 
 def create_itinerary(destination: str, num_days: int, notes: str = "") -> dict:
     days = []
-    for day in range(1, int(num_days)):
+    for day in range(1, int(num_days) + 1):
         days.append(
             {
                 "day": day,
@@ -83,7 +100,7 @@ TOOLS = [
             "properties": {
                 "origin": {"type": "string", "description": "Departure city"},
                 "destination": {"type": "string", "description": "Arrival city"},
-                "date": {"type": "string", "description": "Travel date"},
+                "date": {"type": "string", "description": "Travel date (YYYY-MM-DD)"},
             },
             "required": ["origin", "destination", "date"],
         },
@@ -139,5 +156,7 @@ TOOL_FUNCTIONS = {
 def execute_tool(name: str, tool_input: dict):
     try:
         return TOOL_FUNCTIONS[name](**tool_input)
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
+        # The dispatcher's contract: any tool failure becomes a tool_result the
+        # model can read and recover from, rather than a 500 on the request.
         return {"error": str(e)}
