@@ -271,3 +271,59 @@ Issues found reviewing the P2-P8 scaffold. Defects themselves belong in Phoenix
 **Deleted:** `travel-agent-automation-demo-evals` (1652 spans, mostly 429-retry noise from the #37 crash-storm before the fix -- the meaningful summary of that incident is already text in #37, not lost), `travel-agent-evals` (a 3-span smoke test from verifying #36's tracing fix), `travel-agent` (the original, superseded pre-`-baseline`-naming project from early dev, 149 spans, never used as the actual reported baseline).
 **Kept:** `travel-agent-baseline`, `travel-agent-v1-fixed`, `travel-agent-v2-fixed` (real experiment evidence -- v2-fixed still holds the documented dual-run mix from #33, filtered at read time, not deleted), `travel-agent-automation-demo` (P8 live-run evidence).
 **Method:** `client.projects.delete(project_name=...)` -- project-level delete, not the per-span `spans.delete()` (which orphans children, see #33's reasoning for why that was avoided there). Clean here because these three projects were pure noise end-to-end, not a mix of good and bad data needing surgical filtering.
+
+---
+
+## Process & Collaboration Learnings
+
+Separate from the numbered technical issues above: what the *working process itself*
+(human + AI, across sessions) got right and wrong. Kept here so it can be cited
+directly in "Results & Learnings" / "tradeoffs and design decisions."
+
+### What worked
+- **Hard bounds written down up front, revisited at handoffs.** The plan file's explicit
+  ceilings (module counts, "Phoenix only, no new state") were what caught #20's scope
+  drift after a mid-project tool handoff, and what made every later "should we build X"
+  question answerable in one line instead of a debate.
+- **The judge-calibration protocol as a demonstrated process, not a claimed one.** Blind
+  human labels first (`golden_round1_blind.csv`), THEN measure agreement, THEN adjudicate
+  disagreements with the domain owner, THEN re-measure. 47% -> 89%, with the two
+  remaining disagreements left alone rather than tuned away. This is the actual
+  deliverable to walk through in an interview, more than the final percentage.
+- **Reading real replies instead of trusting aggregate scores.** Multiple findings
+  (#7 fixture context needed, #18 checks failing open, #30/31 rubric miscalibration,
+  #32's tone regression) were only caught by pulling actual judge explanations and
+  actual agent replies, not by looking at a pass-rate number. A dashboard number is
+  a prompt to go look, not a conclusion.
+- **Fixing forward in public.** Every fix cites the eval/finding that caught it, one
+  commit each (docs/BUILD_LOG.md's own numbering plus git log). This is what "draft PR
+  cites the violation" looks like when there's no PR-bot built -- the human-reviewed
+  loop-closure the client explicitly asked for (transcript, feedback loop question),
+  done manually but in the same shape.
+
+### What went wrong, and the fix
+- **Work went uncommitted across sessions (~1,300 lines, several sessions).** The
+  entire evals/ package, scripts/, tracing wiring, and the golden dataset were built,
+  tested, and reported on as "done" without ever being committed. Caught only by an
+  explicit git-status audit before starting new work. Lesson: "it works and I showed
+  you the output" is not the same claim as "it's committed" -- state that distinction
+  explicitly, every time, rather than letting "done" quietly mean different things.
+- **A mid-session tool handoff (to a different agent) silently violated the agreed
+  hard bounds** (#20) -- evals/ grew ~2x over budget, local state files reappeared,
+  a defect ledger went to markdown after being explicitly ruled out. Bounds have to be
+  re-read and re-asserted at every handoff, not assumed to carry over with the context.
+- **Assuming infra is up instead of checking.** Phoenix went down between sessions with
+  no error surfaced (tracing fails silently by design, #34); a stale server on a reused
+  port silently ate a whole traffic run before that (build log, early P1). Twice, a
+  "clean" run turned out to be running against nothing. Lesson: verify the destination
+  received data before trusting a source-side success signal, especially after any gap
+  where infra uptime wasn't directly observed.
+- **Re-running the same experiment into the same project name mixed two runs together**
+  (#33) -- required a timestamp-based filter to recover a clean number after the fact.
+  Lesson: a fresh project/run name per attempt is cheaper than reconstructing a clean
+  slice later.
+- **Optimism about live external quota.** Free-tier daily caps (not just per-minute
+  rate limits) were treated as a soft constraint until they weren't (#31/#37) -- burned
+  through judge quota mid-verification more than once, some of it on non-essential
+  reruns. Lesson: budget calls for what's actually needed before a session, not
+  speculatively "to see."
