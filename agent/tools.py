@@ -57,7 +57,7 @@ def get_weather(city: str, date: str) -> dict:
 
 def create_itinerary(destination: str, num_days: int, notes: str = "") -> dict:
     days = []
-    for day in range(1, int(num_days)):
+    for day in range(1, int(num_days) + 1):
         days.append(
             {
                 "day": day,
