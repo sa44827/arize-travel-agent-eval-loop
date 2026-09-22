@@ -50,8 +50,8 @@ def get_weather(city: str, date: str) -> dict:
         "city": city,
         "date": date,
         "condition": entry["conditions"][seed % len(entry["conditions"])],
-        "high_f": round(high * 5 / 9 + 32),
-        "low_f": round(low * 5 / 9 + 32),
+        "high_f": round(high),
+        "low_f": round(low),
     }
 
 
