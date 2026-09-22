@@ -1,6 +1,6 @@
 # AI Travel Agent
 
-A simple AI travel agent built on the Anthropic API. It helps users plan trips: searching flights and hotels, checking the weather, and assembling day-by-day itineraries. All travel data comes from local JSON fixtures in `data/` — there are no external API calls beyond the LLM.
+A simple AI travel agent built on the Gemini API. It helps users plan trips: searching flights and hotels, checking the weather, and assembling day-by-day itineraries. All travel data comes from local JSON fixtures in `data/` — there are no external API calls beyond the LLM.
 
 It exposes two interfaces:
 
@@ -9,7 +9,7 @@ It exposes two interfaces:
 
 ## How it works
 
-The agent is a standard Anthropic tool-calling loop, written plainly with no frameworks:
+The agent is a standard Gemini function-calling loop, written plainly with no frameworks:
 
 ```
 agent/
@@ -38,7 +38,7 @@ The model can call four tools:
 
 ## Setup
 
-Requires Python 3.11+ and an Anthropic API key.
+Requires Python 3.11+ and a Gemini API key (free tier works).
 
 With [uv](https://docs.astral.sh/uv/) (recommended):
 
@@ -57,15 +57,16 @@ Then configure your key:
 
 ```bash
 cp .env.example .env
-# edit .env and set ANTHROPIC_API_KEY
+# edit .env and set GEMINI_API_KEY
 ```
 
 Environment variables:
 
 | Variable | Required | Default | Purpose |
 |---|---|---|---|
-| `ANTHROPIC_API_KEY` | yes | — | Anthropic API key |
-| `ANTHROPIC_MODEL` | no | `claude-haiku-4-5` | Model used by the agent |
+| `GEMINI_API_KEY` | yes | — | Gemini API key |
+| `GEMINI_MODEL` | no | `gemini-3.5-flash` | Model used by the agent |
+| `GEMINI_JUDGE_MODEL` | no | `gemini-3.1-pro-preview` | Model used by the eval judges (evals only) |
 
 ## Usage
 
