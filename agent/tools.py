@@ -2,11 +2,11 @@ import json
 
 from agent.config import DATA_DIR
 
-with open(DATA_DIR / "flights.json") as f:
+with open(DATA_DIR / "flights.json", encoding="utf-8") as f:
     FLIGHTS = json.load(f)
-with open(DATA_DIR / "hotels.json") as f:
+with open(DATA_DIR / "hotels.json", encoding="utf-8") as f:
     HOTELS = json.load(f)
-with open(DATA_DIR / "weather.json") as f:
+with open(DATA_DIR / "weather.json", encoding="utf-8") as f:
     WEATHER = json.load(f)
 
 
