@@ -1,11 +1,16 @@
 [project]
 name = "arize-fde-agent"
 version = "0.1.0"
-description = "A simple AI travel agent (CLI + FastAPI) built on the Anthropic API"
+description = "A simple AI travel agent (CLI + FastAPI) built on the Gemini API"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "anthropic==0.116.0",
+    "google-genai==2.24.0",
+    "arize-phoenix==20.14.0",
+    "arize-phoenix-otel==0.17.1",
+    "arize-phoenix-evals==3.8.0",
+    "arize-phoenix-client==3.5.0",
+    "openinference-instrumentation-google-genai==1.4.7",
     "fastapi==0.139.0",
     "httpx==0.28.1",
     "python-dotenv==1.2.2",

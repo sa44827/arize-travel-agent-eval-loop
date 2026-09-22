@@ -224,9 +224,136 @@ Issues found reviewing the P2-P8 scaffold. Defects themselves belong in Phoenix
 **Lesson:** the calibration loop (measure -> inspect disagreements -> decide the rubric with the domain owner -> update template -> re-measure) is the deliverable, more than the final number.
 
 ### #32 — Experiment v1-fixed vs v2-fixed (tools identical, prompt only variable)
+**Superseded:** the v2-fixed figures below (fallback 4->1, tokens 123k->67k) were computed before #34 (Phoenix was down, one run silently recorded 0 traces) was diagnosed -- treat #33's clean rescore (fallback 4->0, groundedness 91%, tone 77%) as authoritative for v2-fixed; this entry's *tool-fix-only* v1-fixed numbers (fallback 4->4, groundedness 17%->38%, tool_contract 35%->100%) are unaffected and still correct.
 **Setup:** travel-agent-baseline (broken tools+v1) -> travel-agent-v1-fixed (fixed tools+v1) isolates tool-fix impact; travel-agent-v1-fixed -> travel-agent-v2-fixed (fixed tools+v2) isolates prompt impact.
 **Result:** fallback turns 4->1, groundedness (judge) 38%->100%, reply_grounded 88%->100%, tool_called 78%->91%, tokens 123k->67k (~45% cheaper: fewer retries/fallbacks). tone regressed 100%->76%.
 **Regression root cause:** v2's honesty-on-empty-results instruction told the model the "why" (demo system, fixed test data) as reasoning context; model started saying that directly to users ("Since this is a demo system with a fixed set of test data...") — exactly the internal-systems leak another prompt line already banned. One-line fix: made explicit that fact is for internal reasoning only, never to be said to the user. Verified on the exact triggering query — leak gone.
 **Second finding (not a prompt bug):** 2 of 5 tone flags were create_itinerary's placeholder content ("Explore {city} / Activities / free time" x N) read verbatim, now that the day-COUNT bug is fixed and the content is fully visible/legible. The count fix (#which commit) was correct and necessary; it also unmasked a pre-existing content-quality limitation in the tool (out of scope to fix — it's a stub with no real per-destination data). Logged as a known limitation, not an eval-loop defect.
 **Judge-calibration note:** 1 of 5 tone flags ("no flights found, try different dates" marked "dismissive") looks like an overly strict judge call, not a real tone problem — same polite decline pattern was approved as professional in golden-set calibration (#31). Left as-is; would revisit if it recurs at scale.
 **Loop-order verification:** queried Phoenix directly (not just code review) on travel-agent-v1-fixed: 7 turns failed the Stage-1 gate, 0 of them carry any LLM-judge annotation; for every turn with both annotation kinds, last CODE annotation timestamp <= first LLM annotation timestamp. Confirms the gate->judge order is enforced in practice, not just asserted by reading run_evals.py.
+
+### #33 — Clean rescore of v2-fixed (dedup two traffic runs) + tone regressions root-caused
+**What:** first v2-fixed traffic run happened while Phoenix was still down from #-server-restart (0 traces recorded, silently -- see #34); rerunning after restart plus my earlier accidental duplicate run left 46 traces in travel-agent-v2-fixed (23 pre-leak-fix + 23 post-fix). Scored only the post-fix 23 (last by start_time; 881s gap cleanly separates the two runs) via a scratch script rather than deleting spans (Phoenix client's spans.delete() only removes one span at a time and orphans children -- filtering at read time is reversible, deleting 3 spans/turn x23 is not).
+**Clean result (post-fix v2, n=23):** tool_called 96%, reply_grounded 100%, tool_contract 100%, groundedness 91%, itinerary_accuracy 100%, tone 77% (still failing).
+**Tone root-caused (4 failures, not 1 bug):**
+  1. Miami weather "featured scattered showers... 86F" (past tense) -- judge flagged as hallucination. FALSE POSITIVE: July 15 2026 is genuinely in the past relative to the real run date (Sept 22 2026); judge template had no "today" context so it can't tell past from future. Same class of bug as agent prompt's original missing-date issue, now found in the judge itself by the same investigative process.
+  2. London weather empty-result reply ("no data, try different date/city") -- judge called it dismissive. Same pattern accepted as professional in golden calibration (#31); judge miscalibration, not an agent defect.
+  3+4. Paris/Chicago itineraries -- generic placeholder content ("Explore X / Activities / free time" xN), now fully visible since the day-count bug (fix commit 8c0c0d4) no longer masks it. Confirmed known limitation of create_itinerary (content stub, no per-destination data) -- not an eval-loop defect, not fixed (out of bounds; would need real per-destination content).
+**Fixes applied (evals/judges.py):** added TODAY_DATE (real date.today()) to groundedness and tone templates -- same fix class as agent/prompt.py's {today}, this time in the judge. Also loosened the tone rubric explicitly: "honestly saying nothing was found... is professional and NOT dismissive" (targets root cause #2 directly, per user decision to loosen rubric rather than change agent phrasing for this specific pattern).
+**BLOCKED verifying live:** gemini-3.1-pro-preview (judge model) hit its free-tier daily cap (250 requests/day) mid-verification. Template correctness confirmed by direct string inspection (renders real date, no leftover placeholder); the actual verdict change is unverified until quota resets (~20:00 UTC) or a different judge model is used for a one-off check.
+**Lesson:** (1) re-running the same experiment against the same project name without a fresh name/cutoff silently mixes runs -- always use a new project name per attempt, or be prepared to filter by timestamp. (2) free-tier daily quotas (not just per-minute rate limits) are a real constraint on an iterative eval-loop workflow -- budget judge calls, don't re-run speculatively.
+
+### #34 — Phoenix went down between traffic generation and eval scoring (silent, self-diagnosed)
+**What:** ran v1-fixed and v2-fixed traffic (23 msgs each) assuming Phoenix was up (it had been, hours earlier); by the time evals.run_evals ran against those projects, both showed 0 turns -- projects didn't exist in Phoenix at all. Root cause: Phoenix (a `phoenix serve` process, its ~/.phoenix/phoenix.db confirmed via file timestamps) had been closed at some point outside this session -- not started or stopped by any command run here. Tracing is designed to fail silently (agent.tracing.init_tracing() swallows the exception) so the agent kept answering normally with zero indication anything was wrong.
+**Fix:** restarted `phoenix serve`; re-ran both traffic sets; verified via a direct spans-dataframe query (not just /healthz) that each project actually has the expected span/turn counts before scoring.
+**Lesson:** a healthy-looking traffic run (agent answers, fallback counts look right) is NOT evidence tracing worked -- by design, since tracing failures never surface to the caller. Always verify span counts landed in Phoenix before trusting an eval run, especially after any gap where Phoenix's uptime wasn't directly observed.
+
+### #35 — Design decision: Silver/Gold collapsed into Phoenix, not separate stores
+**Diagram says:** Bronze (Raw Log Storage) -> Silver Storage (Cleaned Eval Loop Data) -> Gold Storage (Business Metrics) as three distinct stores, ETL between them.
+**What we actually built:** Bronze = Phoenix's own trace store (unchanged, matches). Silver = Stage 1/Stage 2 eval results written back as **span annotations on the same Phoenix spans** (evals/run_evals.py `_log_annotations` / `_row`) -- not a separate database. Gold = **not persisted at all**; it's a query computed on demand over those annotations (evals/thresholds.py `pass_rates`/`check_thresholds`), run fresh each eval cycle and printed/returned, not written anywhere durable.
+**Why:** Phoenix already stores the raw trace (Bronze) and accepts arbitrary annotations keyed to a span (which is exactly what Silver is -- cleaned, structured eval output tied to the record it graded). A Gold rollup is a small, cheap aggregate query over that annotation table; standing up a second and third database to hold it would be storage for the sake of matching a diagram, not because Phoenix can't serve the read pattern. This is the same "Phoenix already solves logs-stored-nowhere" argument from ARIZE_EVAL_CONTEXT.md Section 3, extended one layer further: it also already solves cleaned-results-stored-nowhere and rollup-metrics-computed-nowhere, for this scale.
+**Where this would change in production:** at higher query volume/frequency, recomputing Gold on every dashboard load stops being free, and Arize AX's managed store + continuous monitors (design-only in this build) is exactly the layer that would take over doing this incrementally instead of recomputing from scratch. That's the honest line to draw under questioning: today's Gold is "a query," production's Gold is "a materialized, continuously-updated rollup" -- same logical layer, different execution given real load.
+**Bound respected:** "Phoenix only, no new DB/state file" (see hard bounds in the original plan) -- this decision is *why* that bound was achievable, not a workaround of it.
+
+### #36 — Fixed: judge/eval cost was invisible in Phoenix (client explicitly asked for it)
+**What:** re-reading the customer discovery transcript found an explicit, unambiguous requirement not yet delivered: "being able to monitor how much we're spending on evaluating and how much we're actually spending on agents is going to be very important." We only had one number (agent tokens, from agent/loop.py's traced client). The judge's Gemini calls (evals/judges.py) run in a separate Python process that never called init_tracing() -- zero spans, zero token visibility.
+**Fix:** agent/tracing.py's init_tracing() now takes an explicit project_name (default unchanged). evals/judges.py calls it at import time with f"{PROJECT}-evals" -- a sibling Phoenix project, so judge cost is traced but never mixed into the agent's own span count/cost. evals/run_evals.py's summary now reports agent_tokens_this_cycle and judge_tokens_all_time as two separate line items (was one merged "tokens" key).
+**Verified live:** ran a real (cheap, gemini-3.5-flash, not the exhausted judge model) classification call through evals.judges' actual LLM client after this change. travel-agent-evals project appeared in Phoenix with 3 real spans (GenerateContent, LLM.generate_object, tone.evaluate/EVALUATOR), 407 total tokens captured. run_evals._judge_cost() correctly reads those numbers back.
+**In bounds:** "cost tracking (token/$ per step)" was always a BUILD item; this closes a real gap in it rather than adding new scope.
+
+### #37 — P8 live run: scheduler works, cost-per-line-item confirmed, one new gap found
+**What:** ran evals.scheduler unattended (60s interval) against a live agent, seeded 23 turns, sent 2 more mid-run via curl to prove new traffic is picked up without any manual eval trigger. Confirmed via Phoenix query before the scheduler's next tick that both new turns appeared as unscored.
+**Cycle 1 result (clean):** 25 new_turns, 1 gate_failed, agent_tokens_this_cycle and judge_tokens_all_time both non-zero and reported as separate line items (confirms #36's fix works end-to-end, not just in isolation). Some judge calls succeeded before the daily quota fully blocked the rest.
+**Crash found and fixed live:** run_judges raised KeyError('groundedness_score') when ALL calls for a judge fail (column never created, not just rows missing) -- see #36 commit, same session. Fixed in evals/judges.py (skip judge cleanly if its score column is absent) and evals/run_evals.py (wrap run_judges in try/except so a total Stage-2 outage never discards the free Stage-1 results already computed). Restarted, verified clean on the next cycle.
+**New gap (documented, not fixed -- time-boxed before presentation):** a turn only clears the gate/stops being retried once it gets a COMPLETE judge pass (groundedness AND tone) in the SAME cycle. Under partial-quota conditions (some calls 429, some succeed) this means indefinite reprocessing of the same turns rather than converging -- cycle 2 reprocessed the same 24 turns cycle 1 had already partially judged. Production fix: cap retry attempts per turn, mark judge_unavailable after N failures and surface that as its own monitored state instead of looping forever. Stopped the scheduler here rather than continue burning the day's remaining Gemini quota chasing this on a non-demo run.
+**Lesson:** "idempotent" needs a precise definition -- ours was "no LLM cost on an already-fully-scored turn," which is correct, but a *partially* scored turn under a degraded judge model isn't a state the design accounted for. Real infra constraints (a rate limit) exposed a gap that a clean-quota test run never would have.
+
+### #38 — Housekeeping: deleted debug-noise Phoenix projects before the demo
+**Deleted:** `travel-agent-automation-demo-evals` (1652 spans, mostly 429-retry noise from the #37 crash-storm before the fix -- the meaningful summary of that incident is already text in #37, not lost), `travel-agent-evals` (a 3-span smoke test from verifying #36's tracing fix), `travel-agent` (the original, superseded pre-`-baseline`-naming project from early dev, 149 spans, never used as the actual reported baseline).
+**Kept:** `travel-agent-baseline`, `travel-agent-v1-fixed`, `travel-agent-v2-fixed` (real experiment evidence -- v2-fixed still holds the documented dual-run mix from #33, filtered at read time, not deleted), `travel-agent-automation-demo` (P8 live-run evidence).
+**Method:** `client.projects.delete(project_name=...)` -- project-level delete, not the per-span `spans.delete()` (which orphans children, see #33's reasoning for why that was avoided there). Clean here because these three projects were pure noise end-to-end, not a mix of good and bad data needing surgical filtering.
+
+---
+
+## Process & Collaboration Learnings
+
+Separate from the numbered technical issues above: what the *working process itself*
+(human + AI, across sessions) got right and wrong. Kept here so it can be cited
+directly in "Results & Learnings" / "tradeoffs and design decisions."
+
+### What worked
+- **Hard bounds written down up front, revisited at handoffs.** The plan file's explicit
+  ceilings (module counts, "Phoenix only, no new state") were what caught #20's scope
+  drift after a mid-project tool handoff, and what made every later "should we build X"
+  question answerable in one line instead of a debate.
+- **The judge-calibration protocol as a demonstrated process, not a claimed one.** Blind
+  human labels first (`golden_round1_blind.csv`), THEN measure agreement, THEN adjudicate
+  disagreements with the domain owner, THEN re-measure. 47% -> 89%, with the two
+  remaining disagreements left alone rather than tuned away. This is the actual
+  deliverable to walk through in an interview, more than the final percentage.
+- **Reading real replies instead of trusting aggregate scores.** Multiple findings
+  (#7 fixture context needed, #18 checks failing open, #30/31 rubric miscalibration,
+  #32's tone regression) were only caught by pulling actual judge explanations and
+  actual agent replies, not by looking at a pass-rate number. A dashboard number is
+  a prompt to go look, not a conclusion.
+- **Fixing forward in public.** Every fix cites the eval/finding that caught it, one
+  commit each (docs/BUILD_LOG.md's own numbering plus git log). This is what "draft PR
+  cites the violation" looks like when there's no PR-bot built -- the human-reviewed
+  loop-closure the client explicitly asked for (transcript, feedback loop question),
+  done manually but in the same shape.
+
+### What went wrong, and the fix
+- **Work went uncommitted across sessions (~1,300 lines, several sessions).** The
+  entire evals/ package, scripts/, tracing wiring, and the golden dataset were built,
+  tested, and reported on as "done" without ever being committed. Caught only by an
+  explicit git-status audit before starting new work. Lesson: "it works and I showed
+  you the output" is not the same claim as "it's committed" -- state that distinction
+  explicitly, every time, rather than letting "done" quietly mean different things.
+- **A mid-session tool handoff (to a different agent) silently violated the agreed
+  hard bounds** (#20) -- evals/ grew ~2x over budget, local state files reappeared,
+  a defect ledger went to markdown after being explicitly ruled out. Bounds have to be
+  re-read and re-asserted at every handoff, not assumed to carry over with the context.
+- **Assuming infra is up instead of checking.** Phoenix went down between sessions with
+  no error surfaced (tracing fails silently by design, #34); a stale server on a reused
+  port silently ate a whole traffic run before that (build log, early P1). Twice, a
+  "clean" run turned out to be running against nothing. Lesson: verify the destination
+  received data before trusting a source-side success signal, especially after any gap
+  where infra uptime wasn't directly observed.
+- **Re-running the same experiment into the same project name mixed two runs together**
+  (#33) -- required a timestamp-based filter to recover a clean number after the fact.
+  Lesson: a fresh project/run name per attempt is cheaper than reconstructing a clean
+  slice later.
+- **Optimism about live external quota.** Free-tier daily caps (not just per-minute
+  rate limits) were treated as a soft constraint until they weren't (#31/#37) -- burned
+  through judge quota mid-verification more than once, some of it on non-essential
+  reruns. Lesson: budget calls for what's actually needed before a session, not
+  speculatively "to see."
+
+### #39 — Judge quota: intermittently reports "clear" but has no real usable capacity
+**What:** a background poller requiring two consecutive successful calls (15s apart) reported "QUOTA CLEAR (confirmed twice)". A real re-validation run immediately after (scripts/validate_judge.py, ~19 turns x up to 3 judges) got only 1 groundedness call through before returning to 429 RESOURCE_EXHAUSTED on every subsequent call.
+**Conclusion:** the free-tier quota is not "exhausted then clear" as a clean daily boundary suggests -- it appears to have an erratic, near-zero trickle of capacity (occasional single successful requests) rather than real usable headroom. Two consecutive successful pings 15s apart is not sufficient evidence of real availability; a full-batch attempt is the only reliable test, and it failed.
+**Decision:** stopped retrying rather than keep burning real requests chasing single successes. The judge-date-awareness fix (evals/judges.py TODAY_DATE) and the tone-rubric loosening remain verified by direct template inspection only, not by a live re-scored golden-set run. Presenting them honestly as "code-verified, live re-validation blocked by persistent quota exhaustion" is the accurate claim for the interview -- do not claim the 89% calibration number reflects the post-fix judge without re-running it when quota genuinely permits (e.g. a paid tier, or a fresh Cloud project's key).
+
+### #40 — 4-agent review pipeline: implement, alignment-check, scope-check, consolidate
+**What:** ran a 4-agent pipeline per user request. Agent 1 rewrote the deck for precision (automation mechanism explained plainly, results reframed as isolated cause-effect, prod-readiness/tradeoffs-close split into Built/Designed/Known-gap). Agent 2 built a full requirements-traceability table against the transcript; found the deck honest overall but flagged business metrics as completely absent (the single biggest risk) and two softer issues (modularity asserted not demonstrated, scope-guardrail framing). Agent 3 checked scope discipline; confirmed evals/ still measures 545 LOC/6 files (on target) with no local state files, but caught a real factual error: two slides claimed idempotency worked via "a local watermark" that doesn't exist -- contradicts our own core design decision (#35).
+**Fixes applied (orchestrator, between agents):** fixed both watermark references to describe the real Phoenix-annotation mechanism; added a `thresholds.html` slide (the real per-metric reasoning from evals/thresholds.py, previously invisible in the deck despite directly answering the client's "give us your recommendations" ask); added a `business-outcomes.html` slide connecting eval scores to conversion/support-deflection with an honest no-baseline-yet caveat; split the scope-guardrail bullet into built (agent declines, demoed) vs. gap (no monitoring eval).
+**Caught in final verification, not by any agent:** `cost.html` -- the version with real dollar figures ($0.0165->$0.0077/turn, $/day at scale) had been written locally earlier in the session but never actually published; Agent 1 read the live (stale, token-only) version, correctly judged it adequate-looking, and left it alone, since it had no way to know a newer unpublished local edit existed. Caught only because Agent 4's consolidation report flagged an inconsistency worth double-checking. Published the correct file; this was the user's original #1 complaint and it was still unresolved after 3 of 4 agents had run.
+**Agent 4** wrote docs/READINESS_SUMMARY.md, a standalone consolidated doc (what was built, alignment table, scope findings, 8 ranked gaps, all 16 slides described, pre-interview checklist, links) meant to be handed to a fresh Claude session for a final read. Corrected one stale reference in it (the cost.html gap above) before treating it as final.
+**Lesson:** a locally-written file is not "done" until published -- the same class of gap as #-uncommitted-git-work earlier in this build (Process & Collaboration Learnings), recurring in a different tool (Artifact publish vs. git commit). A subagent reading only the live state cannot catch a fix that was written but never sent.
+
+### #41 — Second "written locally, never published" catch: architecture.html
+**What:** user asked "where is my system design png" after skimming the deck. The live `architecture.html` was still the old hand-drawn box-diagram version (never actually replaced with the real uploaded diagram, despite that rewrite being written locally hours earlier and Agent 1 being explicitly told "already has the real system diagram... do not touch" -- a false instruction, since it was never published).
+**Root cause, same as #40's cost.html catch:** a local file edit is not "done" until a publish call actually sends it. Two separate slides had this exact same failure mode in one session.
+**Fix:** published the correct architecture.html (real diagram, /_blob/f0a19c5026af484f025d7ead881dd880). Verified live before and after via direct Artifact read, not by trusting file-size proxies alone -- a byte-size mismatch check on the other 14 slides also flagged eval-method.html and tracing.html as differing, which on inspection was a false alarm (only the <aside> speaker-notes differed, content identical).
+**Lesson, reinforced:** after any batch of local edits meant for an Artifact, verify by reading the LIVE published file directly (not local disk, not a subagent's report, not a byte-count proxy alone) before telling the user something is done. Two misses in one session on the same root cause means the check needs to be a standing habit, not a one-off fix.
+
+### #42 — Layout bug: big stat numbers wrapped mid-character next to wide text
+**What:** user reported slide 14's "~30%" rendering as "~3" / "0" / "%" stacked vertically. Root cause: a large-font <p> (e.g. font-size:80px "~30%") sitting directly beside a wide paragraph in a flex row with no width/flex-shrink protection -- flexbox's default min-width:0 let it shrink below its own content width, and per the deck format's own rule ("a word wider than its box breaks mid-word"), it broke character by character.
+**Found and fixed 3 instances:** cost-eval.html ("~30%"), eval-method.html ("17"), tracing.html ("0") -- all the same pattern, a big number flex-adjacent to explanatory text. Fix: add flex-shrink:0, an explicit min-width sized to the text, and white-space:nowrap to each.
+**Checked and confirmed safe:** calibration.html's 47%/89% (each alone in its own flex:1 column, no adjacent-text squeeze) and cover.html's 96px h1 (has an explicit width:1400px already).
+**Bonus catch:** eval-method.html's local scratchpad copy was itself stale/wrong (an older draft: "17 of 23" at 88px with a duplicate `color` property) vs. the correct live version ("17" at 96px, clean). Rebuilt from the live content, not the stale local file, before applying the fix -- a third instance of "don't trust local disk over the live published state" in this session (see #40, #41).
+
+### #43 — Speaker notes were inconsistent: 8 of 16 slides had none
+**What:** user asked whether talking points had been added. Audit found only 8 slides (cover, problem, architecture, agent-demo, thresholds, tracing, cost, cost-eval) had <aside> speaker notes; the other 8 (agenda, eval-method, calibration, automation, results, business-outcomes, prod-readiness, tradeoffs-close) had none -- an artifact of some slides being written in the original 13-slide pass with notes, others added later by Agent 1 or the orchestrator without them.
+**Fix:** added an aside to all 8 missing slides -- concrete presenting guidance (what to point at, what to say if pushed, what NOT to oversell), matching the tone of the existing ones, not generic filler.
+**Process note:** while doing this, confirmed (again) that local scratchpad copies of eval-method.html, calibration.html, automation.html, results.html, business-outcomes.html, prod-readiness.html, and tradeoffs-close.html needed to be freshly synced from the live artifact before editing -- three of them (calibration, automation, results) matched exactly; eval-method did not (stale draft) and was rebuilt from live content first. Same discipline as #40-#42: verify against live before editing, every time.
