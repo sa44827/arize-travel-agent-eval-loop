@@ -2,16 +2,15 @@ import json
 
 from agent.config import DATA_DIR
 
-with open(DATA_DIR / "flights.json") as f:
+with open(DATA_DIR / "flights.json", encoding="utf-8") as f:
     FLIGHTS = json.load(f)
-with open(DATA_DIR / "hotels.json") as f:
+with open(DATA_DIR / "hotels.json", encoding="utf-8") as f:
     HOTELS = json.load(f)
-with open(DATA_DIR / "weather.json") as f:
+with open(DATA_DIR / "weather.json", encoding="utf-8") as f:
     WEATHER = json.load(f)
 
 
 def search_flights(origin: str, destination: str, date: str) -> list:
-    cities = {origin.lower(), destination.lower()}
     return [
         {
             "airline": f["airline"],
@@ -21,7 +20,7 @@ def search_flights(origin: str, destination: str, date: str) -> list:
             "price_usd": f["price_usd"],
         }
         for f in FLIGHTS
-        if {f["origin"].lower(), f["destination"].lower()} == cities
+        if f["origin"].lower() == origin.lower() and f["destination"].lower() == destination.lower()
     ]
 
 
@@ -35,7 +34,8 @@ def search_hotels(city: str, check_in: str, check_out: str) -> list:
         }
         for h in HOTELS
         if h["city"].lower() == city.lower()
-        and h["available_from"] <= check_in <= h["available_to"]
+        and h["available_from"] <= check_in
+        and check_out <= h["available_to"]
     ]
 
 
@@ -50,14 +50,14 @@ def get_weather(city: str, date: str) -> dict:
         "city": city,
         "date": date,
         "condition": entry["conditions"][seed % len(entry["conditions"])],
-        "high_f": round(high * 5 / 9 + 32),
-        "low_f": round(low * 5 / 9 + 32),
+        "high_f": round(high),
+        "low_f": round(low),
     }
 
 
 def create_itinerary(destination: str, num_days: int, notes: str = "") -> dict:
     days = []
-    for day in range(1, int(num_days)):
+    for day in range(1, int(num_days) + 1):
         days.append(
             {
                 "day": day,
