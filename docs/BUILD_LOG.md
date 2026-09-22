@@ -328,3 +328,8 @@ directly in "Results & Learnings" / "tradeoffs and design decisions."
   through judge quota mid-verification more than once, some of it on non-essential
   reruns. Lesson: budget calls for what's actually needed before a session, not
   speculatively "to see."
+
+### #39 — Judge quota: intermittently reports "clear" but has no real usable capacity
+**What:** a background poller requiring two consecutive successful calls (15s apart) reported "QUOTA CLEAR (confirmed twice)". A real re-validation run immediately after (scripts/validate_judge.py, ~19 turns x up to 3 judges) got only 1 groundedness call through before returning to 429 RESOURCE_EXHAUSTED on every subsequent call.
+**Conclusion:** the free-tier quota is not "exhausted then clear" as a clean daily boundary suggests -- it appears to have an erratic, near-zero trickle of capacity (occasional single successful requests) rather than real usable headroom. Two consecutive successful pings 15s apart is not sufficient evidence of real availability; a full-batch attempt is the only reliable test, and it failed.
+**Decision:** stopped retrying rather than keep burning real requests chasing single successes. The judge-date-awareness fix (evals/judges.py TODAY_DATE) and the tone-rubric loosening remain verified by direct template inspection only, not by a live re-scored golden-set run. Presenting them honestly as "code-verified, live re-validation blocked by persistent quota exhaustion" is the accurate claim for the interview -- do not claim the 89% calibration number reflects the post-fix judge without re-running it when quota genuinely permits (e.g. a paid tier, or a fresh Cloud project's key).
