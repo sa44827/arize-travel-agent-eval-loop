@@ -34,7 +34,8 @@ def search_hotels(city: str, check_in: str, check_out: str) -> list:
         }
         for h in HOTELS
         if h["city"].lower() == city.lower()
-        and h["available_from"] <= check_in <= h["available_to"]
+        and h["available_from"] <= check_in
+        and check_out <= h["available_to"]
     ]
 
 
