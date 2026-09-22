@@ -109,6 +109,11 @@ def run_judges(turns: pd.DataFrame) -> dict[str, dict[str, dict]]:
             continue
         evaluator = ClassificationEvaluator(name=name, prompt_template=template, llm=llm, choices=choices)
         res = evaluate_dataframe(dataframe=rows, evaluators=[evaluator], exit_on_error=False, max_retries=3)
+        if f"{name}_score" not in res.columns:
+            # every call for this judge failed (e.g. daily quota exhausted) -- no
+            # column at all, not just missing rows. Skip; these turns stay
+            # unscored and are retried next cycle, same as an empty verdict.
+            continue
         for sid, verdict in zip(rows["span_id"], res[f"{name}_score"]):
             if isinstance(verdict, dict) and verdict.get("label"):
                 out[sid][name] = {"label": verdict["label"], "score": verdict["score"], "explanation": verdict.get("explanation", "")}

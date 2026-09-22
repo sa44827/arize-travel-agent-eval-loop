@@ -64,7 +64,14 @@ def run_cycle(project: str = PROJECT, rescore: bool = False) -> dict:
             rows.append(_row(t["span_id"], GATE, {"label": "fail", "score": 0, "explanation": f"failed: {failed}"}, "CODE"))
             log.info("GATE FAIL %s %s", t["span_id"][:8], {n: checks[n]["explanation"][:90] for n in failed})
 
-    judged = run_judges(pd.DataFrame(passed)) if passed else {}
+    try:
+        judged = run_judges(pd.DataFrame(passed)) if passed else {}
+    except Exception:
+        # A total judge outage (e.g. daily quota exhausted -- see docs/BUILD_LOG.md)
+        # must not discard the free Stage-1 results computed above: write those,
+        # leave these turns unscored, they're retried next cycle once judging works.
+        log.exception("Stage-2 judging failed for this cycle; Stage-1 results still written")
+        judged = {}
     complete = 0
     for sid, verdicts in judged.items():
         rows += [_row(sid, n, v, "LLM") for n, v in verdicts.items()]
