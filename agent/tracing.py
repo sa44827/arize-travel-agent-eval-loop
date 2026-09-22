@@ -19,25 +19,29 @@ _initialised = False
 tracer = OITracer(trace_api.get_tracer("travel-agent"), TraceConfig())
 
 
-def init_tracing() -> None:
+def init_tracing(project_name: str | None = None) -> None:
     """Register Phoenix tracing with google-genai auto-instrumentation.
 
-    Safe to call multiple times (idempotent). The Phoenix server must be
-    running at PHOENIX_COLLECTOR_ENDPOINT (default http://localhost:6006)
-    before traces will appear, but the agent works fine if it isn't.
+    `project_name` defaults to PHOENIX_PROJECT. Callers that run judge calls
+    in a separate process (evals/judges.py) pass a distinct "<project>-evals"
+    name so agent cost and eval/judge cost land in different Phoenix projects
+    and can be reported separately (client asked for both numbers, not one
+    combined figure — see docs/BUILD_LOG.md).
+
+    Safe to call multiple times (idempotent per process — the first call wins).
+    The Phoenix server must be running at PHOENIX_COLLECTOR_ENDPOINT (default
+    http://localhost:6006) before traces will appear, but the caller works
+    fine if it isn't.
     """
     global _initialised
     if _initialised:
         return
+    name = project_name or os.getenv("PHOENIX_PROJECT", "travel-agent")
     try:
         from phoenix.otel import register
 
-        register(
-            project_name=os.getenv("PHOENIX_PROJECT", "travel-agent"),
-            auto_instrument=True,  # picks up openinference-instrumentation-google-genai
-            batch=True,
-        )
+        register(project_name=name, auto_instrument=True, batch=True)
         _initialised = True
-        log.info("Phoenix tracing initialised (project=%s)", os.getenv("PHOENIX_PROJECT", "travel-agent"))
+        log.info("Phoenix tracing initialised (project=%s)", name)
     except Exception:
-        log.warning("Phoenix tracing unavailable — agent continues without it", exc_info=True)
+        log.warning("Phoenix tracing unavailable — continuing without it", exc_info=True)

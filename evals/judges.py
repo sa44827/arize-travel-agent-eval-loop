@@ -17,11 +17,19 @@ from dotenv import load_dotenv
 from phoenix.evals import LLM, ClassificationEvaluator, evaluate_dataframe
 
 from agent.config import JUDGE_MODEL
+from agent.tracing import init_tracing
 from evals.deterministic import is_itinerary
+from evals.turns import PROJECT
 
 load_dotenv()
 if not os.getenv("GOOGLE_API_KEY") and os.getenv("GEMINI_API_KEY"):  # phoenix-evals reads GOOGLE_API_KEY
     os.environ["GOOGLE_API_KEY"] = os.environ["GEMINI_API_KEY"]
+
+# Judge calls run in a separate process from the agent's, with no tracing of
+# their own by default. Trace them to a sibling "<project>-evals" project so
+# judging cost is visible and reported separately from agent cost (the client
+# asked for both numbers, not one combined figure).
+init_tracing(project_name=f"{PROJECT}-evals")
 
 # The fixture data spans dates that straddle "now" (some 2026 dates are already
 # past by the time this runs). Without today's date the judge can't tell past

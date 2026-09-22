@@ -28,6 +28,24 @@ def _row(span_id: str, name: str, res: dict, kind: str) -> dict:
             "label": res["label"], "score": float(res["score"]), "explanation": res["explanation"][:1000]}
 
 
+def _judge_cost(client: Client, project: str) -> dict:
+    """All-time judge token spend from the sibling '<project>-evals' project
+    (see agent/tracing.py init_tracing / evals/judges.py). Reported separately
+    from agent cost per the client's explicit ask for both numbers."""
+    try:
+        df = client.spans.get_spans_dataframe(project_identifier=f"{project}-evals", limit=5000)
+    except Exception:
+        return {"prompt_tokens": 0, "completion_tokens": 0, "reasoning_tokens": 0}
+    if df is None or df.empty:
+        return {"prompt_tokens": 0, "completion_tokens": 0, "reasoning_tokens": 0}
+    cols = {
+        "prompt_tokens": "attributes.llm.token_count.prompt",
+        "completion_tokens": "attributes.llm.token_count.completion",
+        "reasoning_tokens": "attributes.llm.token_count.completion_details.reasoning",
+    }
+    return {k: int(df[c].fillna(0).sum()) if c in df else 0 for k, c in cols.items()}
+
+
 def run_cycle(project: str = PROJECT, rescore: bool = False) -> dict:
     client = Client()
     turns = fetch_turns(project, only_unscored=not rescore)
@@ -72,7 +90,8 @@ def run_cycle(project: str = PROJECT, rescore: bool = False) -> dict:
         "gate_failed": gate_fail,
         "judged": complete,
         "judge_calls_saved": gate_fail * 2,  # >= 2 judges skipped per gated-out turn
-        "tokens": {k: int(turns[k].sum()) for k in ("prompt_tokens", "completion_tokens", "reasoning_tokens")},
+        "agent_tokens_this_cycle": {k: int(turns[k].sum()) for k in ("prompt_tokens", "completion_tokens", "reasoning_tokens")},
+        "judge_tokens_all_time": _judge_cost(client, project),  # separate line item, per client requirement
         "violations": violations,
     }
     log.info("Summary: %s", json.dumps(summary))
