@@ -129,21 +129,21 @@ current mechanism is documented in #35 and now correctly reflected in the deck.
 
 ## 5. Known gaps and open risks, ranked by severity
 
-1. **Judge-quota reliability — two recent fixes are code-verified only, not
-   live-validated.** The judge model's free-tier quota is not "exhausted then clear"
-   on a clean daily boundary — it has an erratic, near-zero trickle of capacity
-   (BUILD_LOG #39). A background poller reported "quota clear, confirmed twice," but
-   an actual re-validation run (`scripts/validate_judge.py`, ~19 turns × up to 3
-   judges) got only 1 successful call through before returning to 429 on everything
-   else. As a direct result: the judge date-awareness fix (`evals/judges.py`'s
-   `TODAY_DATE`) and the tone-rubric loosening ("honestly saying nothing was
-   found... is professional and NOT dismissive") are verified only by direct
-   template/string inspection — confirmed to render correctly and contain no
-   leftover placeholder — but have **not** been re-scored against the golden set
-   live. **Do not present the 89% calibration figure as reflecting the post-fix
-   judge** — it reflects the pre-#33/#39 judge template. The accurate framing,
-   stated plainly in BUILD_LOG #39 itself, is: "code-verified, live re-validation
-   blocked by persistent quota exhaustion."
+1. **RESOLVED — judge re-validated live with real quota (BUILD_LOG #44, #45).**
+   User raised their Gemini key's rate limit; confirmed genuinely available (6/6
+   sequential calls, not a single lucky ping). Re-running `scripts/validate_judge.py`
+   surfaced a real, previously-invisible regression: the tone judge's earlier
+   date-awareness fix had a clause ("factually confused about dates") that started
+   firing on nearly every turn as real wall-clock time moved past the golden set's
+   fixture dates — tone collapsed to 26% agreement. Root-caused and fixed (that
+   clause never belonged in tone — it's about *how* something is said, not date
+   validity, which is groundedness's job). Re-validated clean: **groundedness 89%
+   agreement / kappa 0.79** (matches the original number exactly — genuinely
+   confirmed, not assumed), **tone 100% agreement / kappa 1.00**. Also added a
+   synthetic negative-class test (`evals/golden/tone_negative_examples.csv`) since
+   the real golden set had zero unprofessional examples — tone judge caught 4/4.
+   The 89% groundedness / 100% tone figures can now be presented as live-validated,
+   current-template numbers, not pre-fix ones.
 2. **Partial-quota retry convergence gap (BUILD_LOG #37, unfixed).** A turn only
    clears the gate once it gets a *complete* judge pass (groundedness AND tone) in
    the same cycle. Under partial-quota conditions (some calls succeed, some 429),
@@ -255,10 +255,9 @@ what to do with them, not a restatement of their content.
 - [ ] Have a fallback narration path ready for both "Phoenix won't load" and "judge
   quota exhausted" — both are pre-planned in `DEMO_WALKTHROUGH.md`'s "Fallback if
   something breaks live" section; rehearse saying them calmly, not apologetically.
-- [ ] Rehearse the judge-quota honesty framing specifically: if asked whether the
-  date-awareness fix or tone-rubric loosening are "confirmed," the correct answer is
-  "code-verified, not live re-validated — quota didn't allow it" (BUILD_LOG #39),
-  not "yes, confirmed."
+- [x] Judge re-validated live (BUILD_LOG #44, #45): groundedness 89%/kappa 0.79,
+  tone 100%/kappa 1.00, tone negative-class 4/4. These are now real, current numbers
+  — safe to cite directly if asked.
 - [ ] Walk through `docs/ANTICIPATED_QA.md` once, out loud, especially the
   "Curveballs" section (bigger model instead of evals, fixture-data cheating,
   modularity-as-a-claim, "what don't you know").
