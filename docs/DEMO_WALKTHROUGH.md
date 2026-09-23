@@ -2,7 +2,8 @@
 
 Click-by-click script for the live portion of the Arize FDE solution presentation.
 Built around what's actually running: Phoenix OSS at `localhost:6006`, the agent via
-its Swagger UI at `localhost:8000/docs`, and the real Phoenix projects produced by
+its Swagger UI at `localhost:8010/docs` (port 8000 is occupied by an unrelated server
+on this machine — always use 8010), and the real Phoenix projects produced by
 this build (see `docs/BUILD_LOG.md` for the full evidence trail behind every claim
 made here).
 
@@ -20,10 +21,11 @@ hotels, and an empty-result case, all real fixture data — keep it that way liv
 ## Phase 0 — Before you start (prep, not live, ~5 min)
 
 1. Start Phoenix: `phoenix serve`. Confirm `localhost:6006` loads in a browser.
-2. Start the agent: `uvicorn agent.api:app --port 8000` (check nothing else already
-   owns port 8000 first — a stale server on a reused port silently ate a whole
-   traffic run earlier in this build; see `docs/BUILD_LOG.md` #25).
-3. Open two tabs: Swagger (`localhost:8000/docs`) and Phoenix (`localhost:6006`).
+2. Start the agent: `uvicorn agent.api:app --port 8010` (port 8000 is occupied by an
+   unrelated server on this machine — always use 8010; a stale server on a reused
+   port has also silently eaten a whole traffic run earlier in this build, see
+   `docs/BUILD_LOG.md` #25, so double-check the port is actually free either way).
+3. Open two tabs: Swagger (`localhost:8010/docs`) and Phoenix (`localhost:6006`).
 4. Keep `docs/BUILD_LOG.md` open on your own screen (not shared) as a cheat sheet
    for exact numbers.
 5. Note: the agent runs on `gemini-3.5-flash`, a separate quota from the judge model

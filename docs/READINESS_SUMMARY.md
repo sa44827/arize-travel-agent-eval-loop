@@ -165,10 +165,10 @@ current mechanism is documented in #35 and now correctly reflected in the deck.
    under questioning, not as proof.
 5. **Judge calibration was measured on 19 turns, once.** Both the original
    calibration report (BUILD_LOG #31) and Agent 2's review flag this: enough to
-   calibrate a rubric, not to certify a population estimate, and the tone judge in
-   particular has never seen an actually unprofessional reply, so its sensitivity is
-   untested rather than merely uncalibrated (`prod-readiness.html`'s own "Known gap"
-   column says this directly).
+   calibrate a rubric, not to certify a population estimate at scale. (Resolved
+   since: tone's negative class is now tested too — 4/4 on synthetic unprofessional
+   examples, BUILD_LOG #44/#45 — so this item is about sample size, not
+   untested sensitivity anymore.)
 6. **Business-metrics connection has no baseline.** The new `business-outcomes.html`
    slide correctly connects eval scores to conversion rate and live-support
    deflection, but there is no actual conversion-rate baseline to compare against —
