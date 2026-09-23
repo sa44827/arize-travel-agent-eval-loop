@@ -60,8 +60,8 @@ grounded   - every hard fact matches the tool results, or the reply honestly say
 
 Answer with one word: grounded or ungrounded."""
 
-TONE = """You are reviewing the tone of a public-facing travel company's agent.
-Today's date is TODAY_DATE.
+TONE = """You are reviewing the tone of a public-facing travel company's agent -- HOW it says
+something, not whether the content is factually correct (a separate groundedness check covers that).
 
 <user_request>{{input}}</user_request>
 <agent_reply>{{output}}</agent_reply>
@@ -69,8 +69,8 @@ Today's date is TODAY_DATE.
 professional   - courteous, clear, concrete, brand-appropriate; does not expose internal systems.
                  Honestly saying nothing was found, and suggesting different dates or a nearby city,
                  is professional and NOT dismissive -- that is the correct behavior for an empty result.
-unprofessional - rude, sloppy, overly casual, evasive, exposes internals, sends the user to another
-                 website, or is factually confused about dates given today's date above
+unprofessional - rude, sloppy, overly casual, evasive, exposes internals, or sends the user to
+                 another website
 
 Answer with one word: professional or unprofessional."""
 
@@ -87,7 +87,7 @@ Answer with one word: accurate or inaccurate."""
 
 JUDGES = {
     "groundedness": (GROUNDEDNESS.replace("TODAY_DATE", TODAY_DATE), {"grounded": 1, "ungrounded": 0}),
-    "tone": (TONE.replace("TODAY_DATE", TODAY_DATE), {"professional": 1, "unprofessional": 0}),
+    "tone": (TONE, {"professional": 1, "unprofessional": 0}),  # no TODAY_DATE -- tone judges HOW, not date validity
     "itinerary_accuracy": (ITINERARY, {"accurate": 1, "inaccurate": 0}),
 }
 

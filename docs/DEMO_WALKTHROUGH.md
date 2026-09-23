@@ -9,6 +9,14 @@ made here).
 Time budget assumes a 1-hour session with ~35 min of live/narrated demo and the rest
 on the deck + Q&A. Adjust live.
 
+**Do not ad-lib an itinerary query live.** `create_itinerary` is a content stub (no
+real per-destination data, "Explore X / Activities / free time" filler) — it's a
+known, logged limitation (BUILD_LOG #33), not a surprise, but it demos thin if
+someone asks for one on the fly. If asked: "the day-count logic is fully checked and
+correct — the day-by-day *content* is a stub we deliberately left unbuilt; it's a
+content-layer problem, not an eval-loop one." Phase 1 below only ever demos flights,
+hotels, and an empty-result case, all real fixture data — keep it that way live.
+
 ## Phase 0 — Before you start (prep, not live, ~5 min)
 
 1. Start Phoenix: `phoenix serve`. Confirm `localhost:6006` loads in a browser.
